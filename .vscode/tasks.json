@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "dotnet",
+			"task": "build",
+			"problemMatcher": [],
+			"label": "dotnet: build Cineder-UI.Web",
+			"file": "C:\\Projects\\Cineder\\Code\\Cineder-UI\\src\\Cineder-UI.Web\\Cineder-UI.Web.csproj"
+		},
+		{
+			"type": "dotnet",
+			"task": "watch Cineder-UI.Web",
+			"file": "C:\\Projects\\Cineder\\Code\\Cineder-UI\\src\\Cineder-UI.Web\\Cineder-UI.Web.csproj",
+			"problemMatcher": [],
+			"label": "dotnet: watch Cineder-UI.Web"
+		}
+	]
+}
