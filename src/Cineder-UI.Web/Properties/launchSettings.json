@@ -10,7 +10,9 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/Cineder/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "commandLineArgs": "--pathbase=/Cineder",
+      "launchUrl": "Cineder",
       "applicationUrl": "http://localhost:5088",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -20,7 +22,8 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/Cineder/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "commandLineArgs": "--pathbase=/Cineder",
       "applicationUrl": "https://localhost:7211;http://localhost:5088",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -29,7 +32,9 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/Cineder/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "commandLineArgs": "--pathbase=/Cineder",
+      "launchUrl": "Cineder",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

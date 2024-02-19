@@ -8,8 +8,9 @@
             "name": "Launch and debug Blazor",
             "type": "blazorwasm",
             "request": "launch",
-            "cwd": "${workspaceFolder}/src/Cineder-UI.Web",
-            "url": "https://localhost:7211"
+            "url": "http://localhost:5088",
+            "webRoot": "/src/Cineder-UI.Web",
+            "browser": "edge"
         }
     ]
 }
