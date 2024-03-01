@@ -1,0 +1,45 @@
+﻿.main-content {
+    background-image: url("img/landing-page-background.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+.main-content-row{
+    padding-top: 15% !important;
+}
+
+/* typical phone screen resolution */
+@media only screen and (max-width : 667px) {
+    .main-content-row {
+        padding-top: 30% !important;
+    }
+}
+/* landscape orientation */
+@media only screen and (min-width : 375px) and (max-width : 667px) and (orientation : landscape) {
+    .main-content-row {
+        padding-top: 30% !important;
+    }
+}
+/* portrait orientation */
+@media only screen and (min-width : 375px) and (max-width : 667px) and (orientation : portrait) {
+    .main-content-row {
+        padding-top: 30% !important;
+    }
+}
+
+/* typical tablet screen resolution */
+@media only screen and (max-width : 834px) {
+}
+/* landscape orientation */
+@media only screen and (min-width : 768px) and (max-width : 834px) and (orientation : landscape) {
+}
+/* portrait orientation */
+@media only screen and (min-width : 768px) and (max-width : 834px) and (orientation : portrait) {
+}
+
+@media only screen and (min-width : 1224px) {
+    .main-content-row {
+        padding-top: 10% !important;
+    }
+}

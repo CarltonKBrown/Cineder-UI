@@ -1,3 +1,49 @@
 ﻿@page "/"
 
-<PageTitle>Hello, world!</PageTitle>
+<PageTitle>Home</PageTitle>
+
+<div class="container-fluid main-content">
+    <div class="row ">
+        <div class="col main-content-row">
+            <div class="row text-center">
+                <div class="col">
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col">
+                    <h2 id="main-heading" class="text-white">Cineder</h2>
+                </div>
+            </div>
+            <EditForm class="container" Model="Model" OnValidSubmit="Submit">
+                <div class="row my-3">
+                    <div class="col">
+                        <div class="row my-3">
+                            <div class="col">
+                                <InputText id="search-text" @bind-Value="Model!.SearchText" class="form-control form-control-sm"
+                                           placeholder="Enter search here" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center my-3">
+                    <div class="col">
+                        <InputRadioGroup Name="search-type" @bind-Value="Model.SearchType">
+                            @foreach (var searchType in SearchTypes)
+                            {
+                                <div class="form-check form-check-inline">
+                                    <InputRadio id=@($"search-type-{searchType.Value}") Name="search-type" Value="@searchType.Value" class="form-check-input btn-outline-dark" />
+                                    <label class="form-check-label text-white">@searchType.Name</label>
+                                </div>
+                            }
+                        </InputRadioGroup>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="col">
+                        <button id="search-btn" type="submit" class="btn btn-dark btn-outline-light">Search</button>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+﻿footer {
+    min-width: 360px;
+}
+
+.footer-container{
+    min-width: 350px;
+}
+.copy-rights{
+    line-height: 30px;
+}
+
+@media (max-width: 768px) {
+    .foot-top {
+        float: none !important;
+        text-align: center;
+    }
+}

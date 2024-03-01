@@ -4,6 +4,11 @@
     flex-direction: column;
 }
 
+body {
+    min-width: 360px !important;
+    min-height: 800px !important;
+}
+
 main {
     flex: 1;
 }
