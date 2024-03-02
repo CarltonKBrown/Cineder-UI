@@ -1,4 +1,4 @@
-﻿namespace Cineder_UI.Web;
+﻿namespace Cineder_UI.Web.Models;
 
 public class LandingPageModel
 {

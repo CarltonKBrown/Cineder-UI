@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Cineder_UI.Web.Models;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Cineder_UI.Web.Features
+namespace Cineder_UI.Web.Features.Home
 {
 	public partial class Index
 	{
@@ -23,6 +24,7 @@ namespace Cineder_UI.Web.Features
 			Model = new(string.Empty, 0);
 		}
 
+		private string RadioButtonId(int btnId) => $"search-type-{btnId}";
 
         public async Task Submit()
 		{

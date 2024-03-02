@@ -6,7 +6,7 @@
     min-width: 360px !important;
 }
 
-.main-content-row{
+.main-content-row {
     padding-top: 15% !important;
 }
 
@@ -14,11 +14,11 @@
     top: 25% !important;
 }
 
-#search-wrapper{
-    height: 60px !important;
+#search-wrapper {
+    height: 50px !important;
 }
 
-#search-btn{
+#search-btn {
     width: 60px !important;
 }
 
