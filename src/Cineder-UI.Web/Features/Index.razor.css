@@ -3,10 +3,23 @@
     background-size: 100% 100%;
     background-repeat: no-repeat;
     height: 100vh;
+    min-width: 360px !important;
 }
 
 .main-content-row{
     padding-top: 15% !important;
+}
+
+.main-content-form {
+    top: 25% !important;
+}
+
+#search-wrapper{
+    height: 60px !important;
+}
+
+#search-btn{
+    width: 60px !important;
 }
 
 /* typical phone screen resolution */

@@ -3,25 +3,17 @@
 <PageTitle>Home</PageTitle>
 
 <div class="container-fluid main-content">
-    <div class="row ">
-        <div class="col main-content-row">
-            <div class="row text-center">
-                <div class="col">
-                </div>
-            </div>
-            <div class="row text-center">
-                <div class="col">
-                    <h2 id="main-heading" class="text-white">Cineder</h2>
-                </div>
-            </div>
-            <EditForm class="container" Model="Model" OnValidSubmit="Submit">
-                <div class="row my-3">
-                    <div class="col">
-                        <div class="row my-3">
-                            <div class="col">
-                                <InputText id="search-text" @bind-Value="Model!.SearchText" class="form-control form-control-sm"
-                                           placeholder="Enter search here" />
-                            </div>
+    <div class ="main-content-form position-absolute start-0 end-0 mt-3">
+        <div class="container">
+            <EditForm id="search-form-main" Model="Model" OnValidSubmit="Submit">
+                <div class="row justify-content-center my-3">
+                    <div class="col-md-8 col-sm-12 col-12">
+                        <div id="search-wrapper" class="input-group">
+                            <InputText id="search-text" @bind-Value="Model!.SearchText" class="form-control"
+                                       placeholder="Enter search here" />
+                            <button id="search-btn" type="submit" class="btn btn-dark">
+                                <i class="bi bi-search"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -36,11 +28,6 @@
                                 </div>
                             }
                         </InputRadioGroup>
-                    </div>
-                </div>
-                <div class="row text-center">
-                    <div class="col">
-                        <button id="search-btn" type="submit" class="btn btn-dark btn-outline-light">Search</button>
                     </div>
                 </div>
             </EditForm>

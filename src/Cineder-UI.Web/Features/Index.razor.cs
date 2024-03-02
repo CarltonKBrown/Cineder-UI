@@ -11,8 +11,6 @@ namespace Cineder_UI.Web.Features
 		[Inject]
 		IJSRuntime? Js { get; set; }
 		
-        
-		private string searchText { get; set; } = string.Empty;
 
 		private SearchType[] SearchTypes =
 		[
@@ -22,7 +20,6 @@ namespace Cineder_UI.Web.Features
 
 		protected override void OnInitialized()
 		{
-
 			Model = new(string.Empty, 0);
 		}
 
