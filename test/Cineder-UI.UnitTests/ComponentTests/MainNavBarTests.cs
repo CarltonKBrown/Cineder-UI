@@ -12,9 +12,9 @@ namespace Cineder_UI.UnitTests.ComponentTests
             // Act
             var cut = RenderComponent<MainNavBar>();
 
-            var actual = cut.Find("#navbar-image");
+            var actual = cut.Find("#navbar-icon");
 
-            var expected = @"<img id=""navbar-image"" src=""img/favicon.png"" />";
+            var expected = @"<i id=""navbar-icon"" class=""bi bi-film text-white""></i>";
 
             // Assert
             actual.MarkupMatches(expected);
@@ -45,7 +45,7 @@ namespace Cineder_UI.UnitTests.ComponentTests
             var actual = cut.Find("#navbar-link");
 
             var expected = @"<a id=""navbar-link"" class=""navbar-brand"" href=""#"">
-                <img id=""navbar-image"" src=""img/favicon.png"" />
+                <i id=""navbar-icon"" class=""bi bi-film text-white""></i>
                 <span id=""navbar-text"" class=""text-white"">Cineder</span>
             </a>";
 
