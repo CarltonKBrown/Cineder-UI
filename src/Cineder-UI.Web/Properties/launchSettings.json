@@ -24,6 +24,7 @@
       "launchBrowser": true,
       "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/Cineder/_framework/debug/ws-proxy?browser={browserInspectUri}",
       "commandLineArgs": "--pathbase=/Cineder",
+      "launchUrl": "Cineder",
       "applicationUrl": "https://localhost:7211;http://localhost:5088",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
