@@ -1,5 +1,6 @@
 ﻿using Bunit;
 using Cineder_UI.Web;
+using Cineder_UI.Web.Models;
 using Microsoft.AspNetCore.Components;
 using Xunit;
 
@@ -10,7 +11,7 @@ namespace Cineder_UI.UnitTests.FeatureTests
         [Fact]
         public void Index_MovieSearch_StateShouldMatchUserInput()
         {
-            var cut = RenderComponent<Web.Features.Index>();
+            var cut = RenderComponent<Web.Features.Home.Index>();
 
             var textField = cut.Find("#search-text");
 
@@ -27,7 +28,7 @@ namespace Cineder_UI.UnitTests.FeatureTests
         [Fact]
         public void Index_SeriesSearch_StateShouldMatchUserInput()
         {
-            var cut = RenderComponent<Web.Features.Index>();
+            var cut = RenderComponent<Web.Features.Home.Index>();
 
             var textField = cut.Find("#search-text");
 
