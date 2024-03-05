@@ -19,4 +19,9 @@
     {
         public Video() : this(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, 0, string.Empty, false, DateTime.Today) { }
     }
+
+    public record SearchResult<T>(int Page, IEnumerable<T> Results, int TotalResults, int TotalPages)
+    {
+        public SearchResult() : this(1, Enumerable.Empty<T>(), 0, 0) { }
+    }
 }

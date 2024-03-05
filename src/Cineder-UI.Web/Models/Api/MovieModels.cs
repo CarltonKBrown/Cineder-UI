@@ -9,4 +9,19 @@
     {
         public MovieDetail() : this(0, string.Empty, 0.0, Enumerable.Empty<Genre>(), string.Empty, string.Empty, Enumerable.Empty<ProductionCompany>(), DateTime.MinValue, 0.0, 0.0, 0.0, Enumerable.Empty<Video>(), Enumerable.Empty<Cast>()) { }
     }
+
+    public record GetMoviesRequest(string SearchText, int Page)
+    {
+        public GetMoviesRequest() : this(string.Empty, 0) { }
+    }
+
+    public record GetMovieIdRequest(long Id)
+    {
+        public GetMovieIdRequest() : this(0) { }
+    }
+
+    public record GetMoviesSimilarRequest(long MovieId, int Page)
+    {
+        public GetMoviesSimilarRequest() : this(0, 0) { }
+    }
 }

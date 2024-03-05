@@ -1,6 +1,6 @@
-﻿using System.Net.Http.Json;
-using Cineder_UI.Web.Models.Common;
+﻿using Cineder_UI.Web.Models.Common;
 using PreventR;
+using System.Net.Http.Json;
 
 namespace Cineder_UI.Web.Services;
 
@@ -10,7 +10,7 @@ public abstract class HttpServiceBase
 
     public HttpServiceBase(HttpClient httpClient)
     {
-        _httpClient = httpClient.Prevent().Null();
+        _httpClient = httpClient.Prevent(nameof(httpClient)).Null().Value;
     }
 
     protected async Task<ApiResponse<T>> GetAsync<T>(string url)
