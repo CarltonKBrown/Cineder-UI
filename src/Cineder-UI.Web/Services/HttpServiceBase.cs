@@ -13,11 +13,13 @@ public abstract class HttpServiceBase
         _httpClient = httpClient.Prevent(nameof(httpClient)).Null().Value;
     }
 
-    protected async Task<ApiResponse<T>> GetAsync<T>(string url)
+    protected async Task<T> GetAsync<T>(string url)
     {
         var request = new HttpRequestMessage(HttpMethod.Get, url);
 
-        return await SendRequest<T>(request);
+        var response = await SendRequest<T>(request);
+
+        return response.Data;
     }
 
     private async Task<ApiResponse<T>> SendRequest<T>(HttpRequestMessage request)

@@ -19,27 +19,21 @@ public class MovieService : HttpServiceBase, IMovieService
     {
         var url = $"{_apiOptions.BaseUrl}/movies/{request.Id}";
 
-        return await ServiceCall<MovieDetail>(url);
+        return await GetAsync<MovieDetail>(url);
     }
 
     public async Task<SearchResult<MoviesResult>> GetMovies(GetMoviesRequest request)
     {
         var url = $"{_apiOptions.BaseUrl}/movies?search={request.SearchText}&page={request.Page}";
 
-        return await ServiceCall<SearchResult<MoviesResult>>(url);
+        return await GetAsync<SearchResult<MoviesResult>>(url);
     }
 
     public async Task<SearchResult<MoviesResult>> GetMoviesSimilar(GetMoviesSimilarRequest request)
     {
         var url = $"{_apiOptions.BaseUrl}/movies/similar/{request.MovieId}?page={request.Page}";
 
-        return await ServiceCall<SearchResult<MoviesResult>>(url);
+        return await GetAsync<SearchResult<MoviesResult>>(url);
     }
 
-    private async Task<T> ServiceCall<T>(string url)
-    {
-        var ans = await GetAsync<T>(url);
-
-        return ans.Data;
-    }
 }

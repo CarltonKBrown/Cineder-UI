@@ -30,7 +30,7 @@
         public Network() : this(0, string.Empty, string.Empty, string.Empty) { }
     }
 
-    public record GetSeriesRequest(string SearchText, int PageNum = 1)
+    public record GetSeriesRequest(string SearchText, int Page = 1)
     {
         public GetSeriesRequest() : this(string.Empty, 1) { }
     }
@@ -40,7 +40,7 @@
         public GetSeriesByIdRequest() : this(0) { }
     }
 
-    public record GetSeriesSimilarRequest(long SeriesId, int PageNum = 1)
+    public record GetSeriesSimilarRequest(long SeriesId, int Page = 1)
     {
         public GetSeriesSimilarRequest() : this(0, 1) { }
     }

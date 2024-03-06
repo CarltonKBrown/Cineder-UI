@@ -30,6 +30,7 @@ var cinederApiOptions = builder.Configuration.GetSection("CinederApiOptions");
 
 builder.Services.Configure<CinederApiOptions>(cinederApiOptions);
 
-builder.Services.AddSingleton<IMovieService, MovieService>();
+builder.Services.AddScoped<IMovieService, MovieService>();
+builder.Services.AddScoped<ISeriesService, SeriesService>();
 
 await builder.Build().RunAsync();
