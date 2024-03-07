@@ -1,9 +1,11 @@
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Blazor.SubtleCrypto;
+using Blazored.SessionStorage;
 using Cineder_UI.Web;
 using Cineder_UI.Web.Interfaces.Services;
-using Cineder_UI.Web.Services;
 using Cineder_UI.Web.Models.Common;
+using Cineder_UI.Web.Services;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -26,11 +28,24 @@ using var configStream = await configResponse.Content.ReadAsStreamAsync();
 
 builder.Configuration.AddJsonStream(configStream);
 
-var cinederApiOptions = builder.Configuration.GetSection("CinederApiOptions");
+builder.Services.Configure<CinederApiOptions>(builder.Configuration.GetSection("CinederApiOptions"));
 
-builder.Services.Configure<CinederApiOptions>(cinederApiOptions);
+builder.Services.Configure<SessionOptions>(builder.Configuration.GetSection("SessionOptions"));
+
+var sessionOptions = new SessionOptions();
+
+builder.Configuration.GetSection("SessionOptions").Bind(sessionOptions);
+
+builder.Services.AddBlazoredSessionStorage();
+
+builder.Services.AddSubtleCrypto(opt =>
+{
+    opt.Key = sessionOptions.StoreKey;
+    opt.Encryption = EncryptionType.AES_GCM;
+});
 
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<ISeriesService, SeriesService>();
+builder.Services.AddScoped<IBrowserStorageService, BrowserStorageService>();
 
 await builder.Build().RunAsync();
