@@ -2,8 +2,10 @@ using Blazor.SubtleCrypto;
 using Blazored.SessionStorage;
 using Cineder_UI.Web;
 using Cineder_UI.Web.Interfaces.Services;
+using Cineder_UI.Web.Interfaces.Store;
 using Cineder_UI.Web.Models.Common;
 using Cineder_UI.Web.Services;
+using Cineder_UI.Web.Store;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -47,5 +49,6 @@ builder.Services.AddSubtleCrypto(opt =>
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<ISeriesService, SeriesService>();
 builder.Services.AddScoped<IBrowserStorageService, BrowserStorageService>();
+builder.Services.AddSingleton<IStateContainer, StateContainer>();
 
 await builder.Build().RunAsync();
