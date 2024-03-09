@@ -20,13 +20,20 @@ namespace Cineder_UI.Web.Services
 
         public async Task<T> GetSessionStorageItemAsync<T>(string uniqueKey)
         {
-            var encryptedString = await _storageService.GetItemAsync<string>(uniqueKey);
+            try
+            {
+                var encryptedString = await _storageService.GetItemAsync<string>(uniqueKey);
 
-            var jsonString = await _cryptoService.DecryptAsync(encryptedString);
+                var jsonString = await _cryptoService.DecryptAsync(encryptedString);
 
-            var data = JsonSerializer.Deserialize<T>(jsonString);
+                var data = JsonSerializer.Deserialize<T>(jsonString);
 
-            return data ?? default!;
+                return data ?? default!;
+            }
+            catch (Exception)
+            {
+                return default!;
+            }
         }
 
         public async Task SetSessionStorageItemAsync<T>(string uniqueKey, T item)

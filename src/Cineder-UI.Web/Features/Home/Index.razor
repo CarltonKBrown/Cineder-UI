@@ -25,11 +25,11 @@
                 <div class="row text-center my-3">
                     <div class="col">
                         <InputRadioGroup Name="search-type" @bind-Value="Model.SearchType">
-                            @foreach (var searchType in SearchTypes)
+                            @foreach (var siteMode in SiteModesOptions)
                             {
                                 <div class="form-check form-check-inline">
-                                    <InputRadio id="@RadioButtonId(searchType.Value)" Name="search-type" Value="@searchType.Value" class="form-check-input btn-outline-dark" />
-                                    <label class="form-check-label text-white">@searchType.Name</label>
+                                    <InputRadio id="@RadioButtonId(siteMode)" Name="search-type" Value="@((int)siteMode)" class="form-check-input btn-outline-dark" />
+                                    <label class="form-check-label text-white">@siteMode</label>
                                 </div>
                             }
                         </InputRadioGroup>

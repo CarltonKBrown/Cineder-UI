@@ -21,6 +21,13 @@ namespace Cineder_UI.Web.Store
 
         public void NotifyStateChanged() => OnStateChanged?.Invoke();
 
+        public async Task InitializeStore()
+        {
+            await RefreshStateAsync();
+
+            NotifyStateChanged();
+        }
+
         private async Task<AppState> GetAppStateAsync()
         {
             var storeName = _sessionOptions.StoreName;
@@ -28,7 +35,7 @@ namespace Cineder_UI.Web.Store
             return await _browserStorage.GetSessionStorageItemAsync<AppState>(storeName);
         }
 
-        private async Task CommitAsync(AppState state)
+        private async Task CommitAppStateAsync(AppState state)
         {
             var storeName = _sessionOptions.StoreName;
 
@@ -43,12 +50,63 @@ namespace Cineder_UI.Web.Store
         {
             var currentState = await GetAppStateAsync() ?? new();
 
-            await CommitAsync(currentState);
+            await CommitAppStateAsync(currentState);
         }
 
         public async Task RestartSessionAsync()
         {
-            await CommitAsync(new());
+            await CommitAppStateAsync(new());
+        }
+
+        public async Task SetSiteMode(SiteMode siteMode)
+        {
+            var currentState = await GetAppStateAsync();
+
+            currentState = currentState with { SiteMode = siteMode };
+
+            await CommitAppStateAsync(currentState);
+        }
+
+        public async Task SetSearchText(string searchText)
+        {
+            var currentState = await GetAppStateAsync();
+
+            switch (currentState.SiteMode)
+            {
+                
+                case SiteMode.Movie:
+                    currentState = currentState with { MovieState = currentState.MovieState with { SearchText = searchText } };
+                    break;
+                case SiteMode.Series:
+                    currentState = currentState with { SeriesState = currentState.SeriesState with { SearchText = searchText } };
+                    break;
+                case SiteMode.None:
+                default:
+                    break;
+            }
+
+            await CommitAppStateAsync(currentState);
+        }
+
+        public async Task SetHomePageSearch(string searchText, SiteMode siteMode)
+        {
+            var currentState = await GetAppStateAsync();
+
+            switch (siteMode)
+            {
+
+                case SiteMode.Movie:
+                    currentState = currentState with {SiteMode = siteMode, MovieState = currentState.MovieState with { SearchText = searchText } };
+                    break;
+                case SiteMode.Series:
+                    currentState = currentState with { SiteMode = siteMode, SeriesState = currentState.SeriesState with { SearchText = searchText } };
+                    break;
+                case SiteMode.None:
+                default:
+                    break;
+            }
+
+            await CommitAppStateAsync(currentState);
         }
     }
 }
