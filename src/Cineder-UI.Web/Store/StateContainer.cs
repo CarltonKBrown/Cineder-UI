@@ -30,20 +30,36 @@ namespace Cineder_UI.Web.Store
 
         private async Task<AppState> GetAppStateAsync()
         {
-            var storeName = _sessionOptions.StoreName;
+            try
+            {
+                var storeName = _sessionOptions.StoreName;
 
-            return await _browserStorage.GetSessionStorageItemAsync<AppState>(storeName);
+                return await _browserStorage.GetSessionStorageItemAsync<AppState>(storeName);
+            }
+            catch (Exception)
+            {
+                await RestartSessionAsync();
+
+                return State;
+            }
         }
 
         private async Task CommitAppStateAsync(AppState state)
         {
-            var storeName = _sessionOptions.StoreName;
+            try
+            {
+                var storeName = _sessionOptions.StoreName;
 
-            State = state;
+                State = state;
 
-            await _browserStorage.SetSessionStorageItemAsync(storeName, State);
+                await _browserStorage.SetSessionStorageItemAsync(storeName, State);
 
-            NotifyStateChanged();
+                NotifyStateChanged();
+            }
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
         }
 
         public async Task RefreshStateAsync()
@@ -69,44 +85,58 @@ namespace Cineder_UI.Web.Store
 
         public async Task SetSearchText(string searchText)
         {
-            var currentState = await GetAppStateAsync();
-
-            switch (currentState.SiteMode)
+            try
             {
-                
-                case SiteMode.Movie:
-                    currentState = currentState with { MovieState = currentState.MovieState with { SearchText = searchText } };
-                    break;
-                case SiteMode.Series:
-                    currentState = currentState with { SeriesState = currentState.SeriesState with { SearchText = searchText } };
-                    break;
-                case SiteMode.None:
-                default:
-                    break;
-            }
+                var currentState = await GetAppStateAsync();
 
-            await CommitAppStateAsync(currentState);
+                switch (currentState.SiteMode)
+                {
+
+                    case SiteMode.Movie:
+                        currentState = currentState with { MovieState = currentState.MovieState with { SearchText = searchText } };
+                        break;
+                    case SiteMode.Series:
+                        currentState = currentState with { SeriesState = currentState.SeriesState with { SearchText = searchText } };
+                        break;
+                    case SiteMode.None:
+                    default:
+                        break;
+                }
+
+                await CommitAppStateAsync(currentState);
+            }
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
         }
 
         public async Task SetHomePageSearch(string searchText, SiteMode siteMode)
         {
-            var currentState = await GetAppStateAsync();
-
-            switch (siteMode)
+            try
             {
+                var currentState = await GetAppStateAsync();
 
-                case SiteMode.Movie:
-                    currentState = currentState with {SiteMode = siteMode, MovieState = currentState.MovieState with { SearchText = searchText } };
-                    break;
-                case SiteMode.Series:
-                    currentState = currentState with { SiteMode = siteMode, SeriesState = currentState.SeriesState with { SearchText = searchText } };
-                    break;
-                case SiteMode.None:
-                default:
-                    break;
+                switch (siteMode)
+                {
+
+                    case SiteMode.Movie:
+                        currentState = currentState with { SiteMode = siteMode, MovieState = currentState.MovieState with { SearchText = searchText } };
+                        break;
+                    case SiteMode.Series:
+                        currentState = currentState with { SiteMode = siteMode, SeriesState = currentState.SeriesState with { SearchText = searchText } };
+                        break;
+                    case SiteMode.None:
+                    default:
+                        break;
+                }
+
+                await CommitAppStateAsync(currentState);
             }
-
-            await CommitAppStateAsync(currentState);
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
         }
     }
 }

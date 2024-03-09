@@ -12,49 +12,66 @@ namespace Cineder_UI.Web.Features.Home
         public LandingPageModel? Model { get; set; } = new();
 
         [Inject]
-        IJSRuntime? Js { get; set; }
-
-        [Inject]
         IStateContainer? Store { get; set; }
 
-        protected override void OnInitialized()
+        [Inject]
+        NavigationManager? NavigationManager { get; set; }
+
+        protected override async Task  OnInitializedAsync()
         {
             Store!.OnStateChanged += StateHasChanged;
 
-            Store!.InitializeStore();
+            await Store!.InitializeStore();
+
+            await base.OnInitializedAsync();
         }
 
         protected override void OnParametersSet()
         {
             if (string.IsNullOrWhiteSpace(Model?.SearchText ?? "") || (Model?.SearchType ?? 0) < 1)
             {
-                return;
+                Model = SetModelFromStore();
             }
 
-            Model = SetModelFromStore();
+            base.OnParametersSet();
         }
 
         private LandingPageModel SetModelFromStore()
         {
-            var siteMode = Store!.State.SiteMode;
+            try
+            {
+                var siteMode = Store!.State.SiteMode;
 
-            var searchText = siteMode == SiteMode.Series ? Store!.State.SeriesState.SearchText : Store!.State.MovieState.SearchText;
+                var searchText = siteMode == SiteMode.Series ? Store!.State.SeriesState.SearchText : Store!.State.MovieState.SearchText;
 
-            return new(searchText, (int)siteMode);
+                return new(searchText, (int)siteMode);
+            }
+            catch (Exception)
+            {
+                return new();
+            }
         }
+
         private static IEnumerable<SiteMode> SiteModesOptions => Enum.GetValues<SiteMode>().Where(x => x != SiteMode.None);
 
         private static string RadioButtonId(SiteMode btnId) => $"search-type-{(int)btnId}";
 
         public async Task Submit()
         {
-            var siteMode = (SiteMode)Model!.SearchType;
+            try
+            {
+                var siteMode = (SiteMode)Model!.SearchType;
 
-            var searchText = Model!.SearchText;
+                var searchText = Model!.SearchText;
 
-            await Store!.SetHomePageSearch(searchText, siteMode);
+                await Store!.SetHomePageSearch(searchText, siteMode);
 
-            await Js!.InvokeVoidAsync("alert", $"Store: {Store!.State}");
+                NavigationManager!.Refresh();
+            }
+            catch (Exception)
+            {
+                NavigationManager!.Refresh();
+            }
         }
 
         public void Dispose()

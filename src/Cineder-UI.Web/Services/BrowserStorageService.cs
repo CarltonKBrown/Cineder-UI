@@ -24,6 +24,11 @@ namespace Cineder_UI.Web.Services
             {
                 var encryptedString = await _storageService.GetItemAsync<string>(uniqueKey);
 
+                if(string.IsNullOrWhiteSpace(encryptedString))
+                {
+                    return default!;
+                }
+
                 var jsonString = await _cryptoService.DecryptAsync(encryptedString);
 
                 var data = JsonSerializer.Deserialize<T>(jsonString);
@@ -38,11 +43,17 @@ namespace Cineder_UI.Web.Services
 
         public async Task SetSessionStorageItemAsync<T>(string uniqueKey, T item)
         {
-            var jsonString = JsonSerializer.Serialize(item);
+            try
+            {
+                var jsonString = JsonSerializer.Serialize(item);
 
-            var encryptedData = await _cryptoService.EncryptAsync(jsonString);
+                var encryptedData = await _cryptoService.EncryptAsync(jsonString);
 
-            await _storageService.SetItemAsync(uniqueKey, encryptedData.Value);
+                await _storageService.SetItemAsync(uniqueKey, encryptedData.Value);
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }
