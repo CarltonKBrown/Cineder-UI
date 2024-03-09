@@ -1,33 +1,82 @@
-﻿using Cineder_UI.Web.Models;
+﻿using Cineder_UI.Web.Interfaces.Store;
+using Cineder_UI.Web.Models.Common;
+using Features.Home.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace Cineder_UI.Web.Features.Home
 {
-    public partial class Index
+    public partial class Index: IDisposable
     {
         [SupplyParameterFromForm]
         public LandingPageModel? Model { get; set; } = new();
 
         [Inject]
-        IJSRuntime? Js { get; set; }
+        IStateContainer? Store { get; set; }
 
-        private SearchType[] SearchTypes =
-        [
-            new("Movies", 0),
-            new("Series", 1)
-        ];
+        [Inject]
+        NavigationManager? NavigationManager { get; set; }
 
-        protected override void OnInitialized()
+        protected override async Task  OnInitializedAsync()
         {
-            Model = new(string.Empty, 0);
+            Store!.OnStateChanged += StateHasChanged;
+
+            await Store!.InitializeStore();
+
+            await base.OnInitializedAsync();
         }
 
-        private string RadioButtonId(int btnId) => $"search-type-{btnId}";
+        protected override void OnParametersSet()
+        {
+            if (string.IsNullOrWhiteSpace(Model?.SearchText ?? "") || (Model?.SearchType ?? 0) < 1)
+            {
+                Model = SetModelFromStore();
+            }
+
+            base.OnParametersSet();
+        }
+
+        private LandingPageModel SetModelFromStore()
+        {
+            try
+            {
+                var siteMode = Store!.State.SiteMode;
+
+                var searchText = siteMode == SiteMode.Series ? Store!.State.SeriesState.SearchText : Store!.State.MovieState.SearchText;
+
+                return new(searchText, (int)siteMode);
+            }
+            catch (Exception)
+            {
+                return new();
+            }
+        }
+
+        private static IEnumerable<SiteMode> SiteModesOptions => Enum.GetValues<SiteMode>().Where(x => x != SiteMode.None);
+
+        private static string RadioButtonId(SiteMode btnId) => $"search-type-{(int)btnId}";
 
         public async Task Submit()
         {
-            await Js!.InvokeVoidAsync("alert", $"Seach Text: {Model?.SearchText ?? ""} | Search Type: {Model?.SearchType ?? 0}");
+            try
+            {
+                var siteMode = (SiteMode)Model!.SearchType;
+
+                var searchText = Model!.SearchText;
+
+                await Store!.SetHomePageSearch(searchText, siteMode);
+
+                NavigationManager!.Refresh();
+            }
+            catch (Exception)
+            {
+                NavigationManager!.Refresh();
+            }
+        }
+
+        public void Dispose()
+        {
+            Store!.OnStateChanged -= StateHasChanged;
         }
     }
 }

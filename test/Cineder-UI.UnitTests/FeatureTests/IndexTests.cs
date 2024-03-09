@@ -1,7 +1,5 @@
 ﻿using Bunit;
-using Cineder_UI.Web;
-using Cineder_UI.Web.Models;
-using Microsoft.AspNetCore.Components;
+using Features.Home.Models;
 using Xunit;
 
 namespace Cineder_UI.UnitTests.FeatureTests
@@ -36,7 +34,7 @@ namespace Cineder_UI.UnitTests.FeatureTests
 
             textField.Change("Series Search");
 
-            seriesSearchOption.Change(1);  
+            seriesSearchOption.Change(1);
 
             var actual = cut.Instance.Model;
 

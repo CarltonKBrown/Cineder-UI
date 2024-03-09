@@ -21,34 +21,122 @@ namespace Cineder_UI.Web.Store
 
         public void NotifyStateChanged() => OnStateChanged?.Invoke();
 
-        private async Task<AppState> GetAppStateAsync()
+        public async Task InitializeStore()
         {
-            var storeName = _sessionOptions.StoreName;
-
-            return await _browserStorage.GetSessionStorageItemAsync<AppState>(storeName);
-        }
-
-        private async Task CommitAsync(AppState state)
-        {
-            var storeName = _sessionOptions.StoreName;
-
-            State = state;
-
-            await _browserStorage.SetSessionStorageItemAsync(storeName, State);
+            await RefreshStateAsync();
 
             NotifyStateChanged();
+        }
+
+        private async Task<AppState> GetAppStateAsync()
+        {
+            try
+            {
+                var storeName = _sessionOptions.StoreName;
+
+                return await _browserStorage.GetSessionStorageItemAsync<AppState>(storeName);
+            }
+            catch (Exception)
+            {
+                await RestartSessionAsync();
+
+                return State;
+            }
+        }
+
+        private async Task CommitAppStateAsync(AppState state)
+        {
+            try
+            {
+                var storeName = _sessionOptions.StoreName;
+
+                State = state;
+
+                await _browserStorage.SetSessionStorageItemAsync(storeName, State);
+
+                NotifyStateChanged();
+            }
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
         }
 
         public async Task RefreshStateAsync()
         {
             var currentState = await GetAppStateAsync() ?? new();
 
-            await CommitAsync(currentState);
+            await CommitAppStateAsync(currentState);
         }
 
         public async Task RestartSessionAsync()
         {
-            await CommitAsync(new());
+            await CommitAppStateAsync(new());
+        }
+
+        public async Task SetSiteMode(SiteMode siteMode)
+        {
+            var currentState = await GetAppStateAsync();
+
+            currentState = currentState with { SiteMode = siteMode };
+
+            await CommitAppStateAsync(currentState);
+        }
+
+        public async Task SetSearchText(string searchText)
+        {
+            try
+            {
+                var currentState = await GetAppStateAsync();
+
+                switch (currentState.SiteMode)
+                {
+
+                    case SiteMode.Movie:
+                        currentState = currentState with { MovieState = currentState.MovieState with { SearchText = searchText } };
+                        break;
+                    case SiteMode.Series:
+                        currentState = currentState with { SeriesState = currentState.SeriesState with { SearchText = searchText } };
+                        break;
+                    case SiteMode.None:
+                    default:
+                        break;
+                }
+
+                await CommitAppStateAsync(currentState);
+            }
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
+        }
+
+        public async Task SetHomePageSearch(string searchText, SiteMode siteMode)
+        {
+            try
+            {
+                var currentState = await GetAppStateAsync();
+
+                switch (siteMode)
+                {
+
+                    case SiteMode.Movie:
+                        currentState = currentState with { SiteMode = siteMode, MovieState = currentState.MovieState with { SearchText = searchText } };
+                        break;
+                    case SiteMode.Series:
+                        currentState = currentState with { SiteMode = siteMode, SeriesState = currentState.SeriesState with { SearchText = searchText } };
+                        break;
+                    case SiteMode.None:
+                    default:
+                        break;
+                }
+
+                await CommitAppStateAsync(currentState);
+            }
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
         }
     }
 }

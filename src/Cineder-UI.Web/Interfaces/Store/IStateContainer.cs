@@ -1,4 +1,5 @@
-﻿using Cineder_UI.Web.Store;
+﻿using Cineder_UI.Web.Models.Common;
+using Cineder_UI.Web.Store;
 
 namespace Cineder_UI.Web.Interfaces.Store
 {
@@ -10,8 +11,15 @@ namespace Cineder_UI.Web.Interfaces.Store
 
         void NotifyStateChanged();
 
+        Task InitializeStore();
+
         Task RefreshStateAsync();
 
         Task RestartSessionAsync();
+
+        Task SetSiteMode(SiteMode siteMode);
+        Task SetSearchText(string searchText);
+
+        Task SetHomePageSearch(string searchText, SiteMode siteMode);
     }
 }

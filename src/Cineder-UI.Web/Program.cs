@@ -49,6 +49,6 @@ builder.Services.AddSubtleCrypto(opt =>
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<ISeriesService, SeriesService>();
 builder.Services.AddScoped<IBrowserStorageService, BrowserStorageService>();
-builder.Services.AddSingleton<IStateContainer, StateContainer>();
+builder.Services.AddScoped<IStateContainer, StateContainer>();
 
 await builder.Build().RunAsync();
