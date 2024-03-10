@@ -113,3 +113,20 @@ a,
 code {
     color: #c02d76;
 }
+
+.site-content {
+    background-color: black;
+    color: white;
+    height: 100vh;
+}
+
+.btn-black
+{
+    color: white;
+    background-color: black;
+    border-color: black
+}
+
+.bg-black{
+    background-color: black;
+}

@@ -66,7 +66,9 @@ namespace Cineder_UI.Web.Features.Home
 
                 await Store!.SetHomePageSearch(searchText, siteMode);
 
-                NavigationManager!.Refresh();
+                var targetUri = Store!.State.SiteMode.Equals(SiteMode.Series) ? "series" : "movies";
+
+                NavigationManager!.NavigateTo($"/{targetUri}?searchText={searchText}&page=1");
             }
             catch (Exception)
             {
