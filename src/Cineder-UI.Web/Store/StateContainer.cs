@@ -1,5 +1,6 @@
 ﻿using Cineder_UI.Web.Interfaces.Services;
 using Cineder_UI.Web.Interfaces.Store;
+using Cineder_UI.Web.Models.Api;
 using Cineder_UI.Web.Models.Common;
 using Microsoft.Extensions.Options;
 
@@ -9,10 +10,12 @@ namespace Cineder_UI.Web.Store
     {
         private readonly IBrowserStorageService _browserStorage;
         private readonly SessionOptions _sessionOptions;
-        public StateContainer(IBrowserStorageService browserStorage, IOptionsSnapshot<SessionOptions> sessionOptions)
+        private readonly IMovieService _movieService;   
+        public StateContainer(IBrowserStorageService browserStorage, IOptionsSnapshot<SessionOptions> sessionOptions, IMovieService movieService)
         {
             _browserStorage = browserStorage;
             _sessionOptions = sessionOptions.Value;
+            _movieService = movieService;
         }
 
         public AppState State { get; private set; } = new();
@@ -138,5 +141,37 @@ namespace Cineder_UI.Web.Store
                 await InitializeStore();
             }
         }
-    }
+
+		public async Task SetMoviesSearch(string searchText, int page)
+		{
+            try
+            {
+                var currentState = await GetAppStateAsync();
+
+                //if (currentState.MovieState.SearchText.Equals(searchText) && currentState.MovieState.SearchResult.Page == page)
+                //{
+                //    return;
+                //}
+
+                var request = new GetMoviesRequest(searchText, page);
+
+                var movieResults = await _movieService.GetMovies(request);
+
+				currentState = currentState with
+				{
+					MovieState = currentState.MovieState with
+					{
+						SearchText = searchText,
+						SearchResult = movieResults
+					}
+				};
+
+				await CommitAppStateAsync(currentState);
+			}
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
+		}
+	}
 }

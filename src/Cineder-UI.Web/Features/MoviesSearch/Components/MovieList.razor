@@ -1,0 +1,19 @@
+﻿
+<div class="container">
+
+    @for (int row = 0; row < Rows; row++)
+    {
+        <div class="card-group">
+            @foreach(var movie in RowItems[row])
+                {
+                    <div class="card text-white bg-dark w-25">
+                        <img src="@ImagePath(movie.PosterPath)" class="card-img-top" />
+                        <div class="card-body">
+                            <p class="card-text"><small class="text-muted">@movie.ReleaseDate.Year</small></p>
+                            <h5 class="card-title">@movie.Name</h5>
+                        </div>
+                    </div>
+                }
+        </div>
+     }
+ </div>

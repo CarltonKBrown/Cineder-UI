@@ -1,4 +1,6 @@
-﻿using Cineder_UI.Web.Models.Common;
+﻿using Cineder_UI.Web.Interfaces.Store;
+using Cineder_UI.Web.Models.Api;
+using Cineder_UI.Web.Models.Common;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -18,8 +20,12 @@ namespace Cineder_UI.Web.Features.MoviesSearch
 		[Inject]
 		IJSRuntime? JSRuntime { get; set; }
 
+		[Inject]
+		IStateContainer? Store { get; set; }
+
 		public MovieSearch? Model { get; set; }
 		public MovieFilter? Filter { get; set; }
+		public SearchResult<MoviesResult>? MoviesResults { get; set; }
 
 		public class MovieSearch
 		{
@@ -36,25 +42,31 @@ namespace Cineder_UI.Web.Features.MoviesSearch
             public int? Selected { get; set; } = (int)SortOptions.None; 
 		}
 
-		protected override void OnInitialized()
+		protected override async Task OnInitializedAsync()
 		{
+			Store!.OnStateChanged += StateHasChanged;
+
+			await Store!.InitializeStore();
+
+			await SearchMovies();
+
 			Model ??= new();
 
 			Filter ??= new();
 
-			base.OnInitialized();
+			MoviesResults  = Store?.State.MovieState.SearchResult ?? new();
+
+			await base.OnInitializedAsync();
 		}
 
-		//protected override async Task OnParametersSetAsync()
-		//{
-		//	var search = SearchText;
+		protected override void OnParametersSet()
+		{
+			Model!.Search = Store!.State.MovieState.SearchText;
 
-		//	var page = Page;
+			MoviesResults = Store!.State.MovieState.SearchResult;
 
-		//	await JSRuntime!.InvokeVoidAsync("alert", $"Search: {search} | Page: {page}");
-
-		//	base.OnParametersSet();
-		//}
+			base.OnParametersSet();
+		}
 
 		private static IEnumerable<FilterOption>? FilterOptions
 		{
@@ -66,6 +78,11 @@ namespace Cineder_UI.Web.Features.MoviesSearch
 
 				return finalList;
 			}
+		}
+
+		private async Task SearchMovies()
+		{
+			await Store!.SetMoviesSearch(SearchText, Page);
 		}
 	}
 }

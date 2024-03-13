@@ -2,42 +2,50 @@
 
 <div class="container-fluid site-content">
 	<div class="container">
-		<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><NavLink class="text-decoration-none text-white" href="/">Home</NavLink></li>
-				<li class="breadcrumb-item active" aria-current="page"><NavLink class="text-decoration-none text-white" href="/movies">Library</NavLink></li>
-			</ol>
-		</nav>
+        <div class="container">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><NavLink class="text-decoration-none text-white" href="/">Home</NavLink></li>
+                    <li class="breadcrumb-item active" aria-current="page"><NavLink class="text-decoration-none text-white" href="/movies">Library</NavLink></li>
+                </ol>
+            </nav>
+        </div>
 		<div class="search-page-content">
-			<header class="border-bottom border-2 border-white mb-3">
-				<h2 class="page-title">Movies</h2>
-			</header>
-			<div class="search-filter-control-bar row justify-content-between">
-				<div class="search-wrapper col-6">
-					<div class="input-group">
-						<InputText @bind-Value="Model!.Search" class="form-control"
-								   placeholder="Enter Movies" />
-						<button type="submit" class="btn btn-black">
-							<i class="bi bi-search"></i>
-						</button>
-					</div>
-				</div>
-				<div class="filter-wrapper col-4">
-					<div class="input-group">
-						<span class="input-group-text btn-black col-2">
-							<i class="bi bi-arrow-down-up"></i>
-						</span>
-						<InputSelect class="form-select bg-black text-white border-0 col 10" @bind-Value="Filter!.Selected">
-							@foreach (var filter in FilterOptions!)
-							{
-								<option value="@filter.Value">@filter.Name</option>
-							}
-						</InputSelect>
-					</div>
-				</div>
+            <div class="container">
+                <header class="border-bottom border-2 border-white mb-3">
+                    <h2 class="page-title">Movies</h2>
+                </header>
+            </div>
+			<div class="search-filter-control-bar">
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <div class="search-wrapper col-6">
+                            <div class="input-group">
+                                <InputText @bind-Value="Model!.Search" class="form-control"
+                                           placeholder="Enter Movies" />
+                                <button type="submit" class="btn btn-black">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="filter-wrapper col-4">
+                            <div class="input-group">
+                                <span class="input-group-text btn-black">
+                                    <i class="bi bi-arrow-down-up"></i>
+                                </span>
+                                <InputSelect class="form-select bg-black text-white border-0" @bind-Value="Filter!.Selected">
+                                    @foreach (var filter in FilterOptions!)
+                                    {
+                                        <option value="@filter.Value">@filter.Name</option>
+                                    }
+                                </InputSelect>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 			</div>
 			<div class="search-results-wrapper">
-
+				<MovieList Movies="MoviesResults"/>
 			</div>
 			<div class="page-control-bar">
 
