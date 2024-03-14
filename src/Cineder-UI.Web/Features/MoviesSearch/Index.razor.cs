@@ -23,9 +23,9 @@ namespace Cineder_UI.Web.Features.MoviesSearch
 		[Inject]
 		IStateContainer? Store { get; set; }
 
-		public MovieSearch? Model { get; set; }
-		public MovieFilter? Filter { get; set; }
-		public SearchResult<MoviesResult>? MoviesResults { get; set; }
+		public MovieSearch? Model { get; set; } = new();
+		public MovieFilter? Filter { get; set; } = new();
+		public SearchResult<MoviesResult>? MoviesResults { get; set; } = new();
 
 		public class MovieSearch
 		{
