@@ -1,18 +1,35 @@
 ﻿
 <div class="overflow-auto scroll-content">
-        @for (int row = 0; row < Rows; row++)
-        {
-            <div class="card-group">
-                @foreach (var movie in RowItems[row])
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                @if (Rows < 1)
                 {
-                    <div class="card text-white bg-dark col-md-3 col-sm-12">
-                        <img src="@ImagePath(movie.PosterPath)" class="card-img-top img-thumbnail" />
-                        <div class="card-body">
-                            <p class="card-text"><small class="text-muted">@movie.ReleaseDate.Year</small></p>
-                            <h5 class="card-title">@movie.Name</h5>
-                        </div>
+                    <div class="no-results">
+                        <p class="text-center">No results</p>
                     </div>
                 }
+                else
+                {
+                    @for (int row = 0; row < Rows; row++)
+                    {
+                        <div class="card-group">
+                            @foreach (var movie in RowItems[row])
+                            {
+                                <div class="col-lg-2 col-md-4 col-sm-4">
+                                    <div class="card text-white bg-black mx-2">
+                                        <img src="@ImagePath(movie.PosterPath)" class="card-img" />
+                                        <div class="card-body">
+                                            <p class="card-text"><small class="text-muted">@movie.ReleaseDate.Year</small></p>
+                                            <p class="card-title fs-6">@movie.Name</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                }
             </div>
-        }
+        </div>
     </div>
+</div>

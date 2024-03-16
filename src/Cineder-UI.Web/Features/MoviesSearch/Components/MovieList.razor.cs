@@ -5,19 +5,30 @@ namespace Cineder_UI.Web.Features.MoviesSearch.Components
 {
 	public partial class MovieList
 	{
+        private readonly int _cols = 6;
+
         [Parameter]
-        public SearchResult<MoviesResult>? Movies { get; set; }
-        private int Cols = 4;
-        private int Count { get; set; }
+        public SearchResult<MoviesResult>? Movies { get; set; } = new();
 
 		protected override void OnParametersSet()
 		{
-            Count = Movies?.Results.Count() ?? 0;
-
 			base.OnParametersSet();
 		}
 
-        private int Rows => Convert.ToInt32((double) Movies!.Results.Count() / Cols);
+        private int Rows
+        {
+            get
+            {
+                var resultsCount = Movies?.Results?.Count() ?? 0;
+
+                if(resultsCount < 1)
+                {
+                    return 0;
+                }
+
+                return Convert.ToInt32(Math.Ceiling((double)resultsCount / _cols));
+            }
+        }
 
         private IEnumerable<MoviesResult>[] RowItems
         {
@@ -32,7 +43,7 @@ namespace Cineder_UI.Web.Features.MoviesSearch.Components
 
 				for (int i = 0; i < Rows; i++)
                 {
-                    itemRows[i] = Movies!.Results.Skip(i * Cols).Take(Cols);
+                    itemRows[i] = Movies!.Results.Skip(i * _cols).Take(_cols);
 				}
 
                 return itemRows;

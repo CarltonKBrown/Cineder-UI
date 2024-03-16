@@ -1,3 +1,11 @@
 ﻿.scroll-content{
-    height: 70vh;
+    height: 80vh;
+}
+
+.movie-img{
+    height: 300px;
+}
+
+.no-results{
+    padding-top: 30%;
 }
