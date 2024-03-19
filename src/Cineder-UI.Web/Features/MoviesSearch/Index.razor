@@ -48,7 +48,16 @@
                 <MovieList Movies="MoviesResults" />
 			</div>
 			<div class="page-control-bar">
-
+                <div class="container">
+                    <div class="row">
+                        <div class="col-6">
+                            <PageControlBar CurrentPage="@PageString"
+                                            TotalPages="@TotalPagesString"
+                                            OnPageChange="ChangePage" 
+                            />
+                        </div>
+                    </div>
+                </div>
 			</div>
 		</div>
 	</div>
