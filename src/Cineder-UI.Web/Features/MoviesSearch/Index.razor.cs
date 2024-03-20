@@ -45,7 +45,7 @@ namespace Cineder_UI.Web.Features.MoviesSearch
 
         protected override void OnParametersSet()
         {
-            if (SearchText != PageModel.Search)
+            if (SearchText != PageModel.Search || Page != (PageModel?.MoviesResults?.Page ?? 1))
             {
                 PageModel = new(SearchText, 0, Store!.State.MovieState.SearchResult);
             }
@@ -65,8 +65,18 @@ namespace Cineder_UI.Web.Features.MoviesSearch
             }
         }
 
-        private async Task SearchMovies()
+        private async Task SearchMovies(string searchText = "", int page = 1)
         {
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                SearchText = searchText;
+            }
+
+            if (page > 0)
+            {
+                Page = page;
+            }
+
             await Store!.SetMoviesSearch(SearchText, Page);
         }
 
@@ -82,9 +92,24 @@ namespace Cineder_UI.Web.Features.MoviesSearch
                 return;
             }
 
-            Page = pageNumInt;
+            await SearchMovies(string.Empty, pageNumInt);
 
-            await SearchMovies();
+            NavMngr.NavigateTo($"/movies?searchText={SearchText}&page={Page}");
+        }
+
+        private async Task ChangeSearch(string searchText)
+        {
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                return;
+            }
+
+            if ((Store?.State?.MovieState?.SearchText ?? "") == searchText)
+            {
+                return;
+            }
+
+            await SearchMovies(searchText);
 
             NavMngr.NavigateTo($"/movies?searchText={SearchText}&page={Page}");
         }

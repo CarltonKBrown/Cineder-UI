@@ -21,13 +21,7 @@
                     <div class="container">
                         <div class="row justify-content-between">
                             <div class="search-wrapper col-6">
-                                <div class="input-group">
-                                    <InputText @bind-Value="PageModel!.Search" class="form-control bg-black text-white border-0"
-                                               placeholder="Enter Movies" />
-                                    <button type="submit" class="btn btn-black">
-                                        <i class="bi bi-search"></i>
-                                    </button>
-                                </div>
+                                <SearchBar SearchText="@PageModel.Search" PlaceHolder="Enter Movies" OnSubmit="ChangeSearch" />
                             </div>
                             <div class="filter-wrapper col-6 col-md-4 col-sm-6 col-lg-4">
                                 <div class="input-group">
