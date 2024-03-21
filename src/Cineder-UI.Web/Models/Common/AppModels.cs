@@ -13,9 +13,9 @@ namespace Cineder_UI.Web.Models.Common
     {
 		[EnumMember(Value = "Sort")]
         None,
-        [EnumMember(Value = "A-Z")]
+        [EnumMember(Value = "A - Z")]
         AlphaAsc,
-		[EnumMember(Value = "Z-A")]
+		[EnumMember(Value = "Z - A")]
 		AlphaDesc,
 		[EnumMember(Value = "Year - Asc")]
 		YearAsc,
@@ -24,11 +24,7 @@ namespace Cineder_UI.Web.Models.Common
 		[EnumMember(Value = "Ratings - Asc")]
 		RatingsAsc,
 		[EnumMember(Value = "Ratings - Desc")]
-		RatingsDesc,
-		[EnumMember(Value = "Name - Genre")]
-		NameGenre,
-		[EnumMember(Value = "Genre - Name")]
-		GenreName
+		RatingsDesc
 	}
 
 	public record FilterOption(string Name, int Value)
@@ -39,14 +35,12 @@ namespace Cineder_UI.Web.Models.Common
 		{
 			return sortOptions switch
 			{
-				SortOptions.AlphaAsc => new("A-Z", (int)SortOptions.AlphaAsc),
-				SortOptions.AlphaDesc => new("Z-A", (int)SortOptions.AlphaDesc),
+				SortOptions.AlphaAsc => new("A - Z", (int)SortOptions.AlphaAsc),
+				SortOptions.AlphaDesc => new("Z - A", (int)SortOptions.AlphaDesc),
 				SortOptions.YearAsc => new("Year - Asc", (int) SortOptions.YearAsc),
 				SortOptions.YearDesc => new("Year - Desc", (int)SortOptions.YearDesc),
 				SortOptions.RatingsAsc => new("Ratings - Asc", (int) SortOptions.RatingsAsc),
 				SortOptions.RatingsDesc => new("Ratings - Desc", (int) SortOptions.RatingsDesc),
-				SortOptions.NameGenre => new("Name - Genre", (int) SortOptions.NameGenre),
-				SortOptions.GenreName => new("Genre - Name", (int) SortOptions.GenreName),
 				_ or SortOptions.None => new("Sort", 0)
 			};
 		}

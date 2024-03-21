@@ -24,17 +24,7 @@
                                 <SearchBar SearchText="@PageModel.Search" PlaceHolder="Enter Movies" OnSubmit="ChangeSearch" />
                             </div>
                             <div class="filter-wrapper col-6 col-md-4 col-sm-6 col-lg-4">
-                                <div class="input-group">
-                                    <span class="input-group-text btn-black">
-                                        <i class="bi bi-arrow-down-up"></i>
-                                    </span>
-                                    <InputSelect class="form-select bg-black text-white border-0" @bind-Value="PageModel!.Selected">
-                                        @foreach (var filter in FilterOptions!)
-                                        {
-                                            <option value="@filter.Value">@filter.Name</option>
-                                        }
-                                    </InputSelect>
-                                </div>
+                                <SortBar Selected="PageModel!.Selected" OnSortChanged="ChangeSort" />
                             </div>
                         </div>
                     </div>

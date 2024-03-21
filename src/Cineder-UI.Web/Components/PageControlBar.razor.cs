@@ -27,9 +27,9 @@ namespace Cineder_UI.Web.Components
                 return;
             }
 
-            await OnPageChange.InvokeAsync(CurrentPage);
-
             LastPageBeforeChange = CurrentPage;
+
+            await OnPageChange.InvokeAsync(CurrentPage);
         }
 
         private async Task BtnNext()

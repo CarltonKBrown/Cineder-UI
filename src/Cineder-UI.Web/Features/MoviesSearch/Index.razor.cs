@@ -53,18 +53,6 @@ namespace Cineder_UI.Web.Features.MoviesSearch
             base.OnParametersSet();
         }
 
-        private static IEnumerable<FilterOption>? FilterOptions
-        {
-            get
-            {
-                var opt = Enum.GetValues<SortOptions>();
-
-                var finalList = opt.Select(FilterOption.FromSortOptions);
-
-                return finalList;
-            }
-        }
-
         private async Task SearchMovies(string searchText = "", int page = 1)
         {
             if (!string.IsNullOrWhiteSpace(searchText))
@@ -114,5 +102,53 @@ namespace Cineder_UI.Web.Features.MoviesSearch
             NavMngr.NavigateTo($"/movies?searchText={SearchText}&page={Page}");
         }
 
+        private void ChangeSort(int sortVal)
+        {
+            if (!Enum.IsDefined(typeof(SortOptions), sortVal))
+            {
+                return;
+            }
+
+            PageModel.Selected = sortVal;
+
+            var sortOption = (SortOptions)sortVal;
+
+            SortMovies(sortOption);
+        }
+
+        private void SortMovies(SortOptions sortOption)
+        {
+            PageModel.MoviesResults = sortOption switch
+            {
+                SortOptions.AlphaAsc => PageModel.MoviesResults with
+                {
+                    Results = PageModel.MoviesResults.Results.OrderBy(x => x.Name)
+                },
+                SortOptions.AlphaDesc => PageModel.MoviesResults with
+                {
+                    Results = PageModel.MoviesResults.Results.OrderByDescending(x => x.Name)
+                },
+                SortOptions.YearAsc => PageModel.MoviesResults with
+                {
+                    Results = PageModel.MoviesResults.Results.OrderBy(x => x.ReleaseDate.Year)
+                },
+                SortOptions.YearDesc => PageModel.MoviesResults with
+                {
+                    Results = PageModel.MoviesResults.Results.OrderByDescending(x => x.ReleaseDate.Year)
+                },
+                SortOptions.RatingsAsc => PageModel.MoviesResults with
+                {
+                    Results = PageModel.MoviesResults.Results.OrderBy(x => x.VoteAverage)
+                },
+                SortOptions.RatingsDesc => PageModel.MoviesResults with
+                {
+                    Results = PageModel.MoviesResults.Results.OrderByDescending(x => x.VoteAverage)
+                },
+                _ or SortOptions.None => PageModel.MoviesResults with
+                {
+                    Results = PageModel.MoviesResults.Results.OrderByDescending(x => x.Idx)
+                }
+            };
+        }
     }
 }
