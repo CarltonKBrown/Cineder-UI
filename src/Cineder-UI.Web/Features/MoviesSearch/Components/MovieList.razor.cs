@@ -10,7 +10,10 @@ namespace Cineder_UI.Web.Features.MoviesSearch.Components
         [Parameter]
         public SearchResult<MoviesResult>? Movies { get; set; } = new();
 
-		protected override void OnParametersSet()
+        [Parameter]
+        public EventCallback<long> OnDetailsClicked { get; set; }
+
+        protected override void OnParametersSet()
 		{
 			base.OnParametersSet();
 		}
@@ -57,6 +60,11 @@ namespace Cineder_UI.Web.Features.MoviesSearch.Components
 			}
 
             return $"https://image.tmdb.org/t/p/w400{posterPath}";
+        }
+
+        private void DetailsClicked(long movieId)
+        {
+            OnDetailsClicked.InvokeAsync(movieId);
         }
     }
 }

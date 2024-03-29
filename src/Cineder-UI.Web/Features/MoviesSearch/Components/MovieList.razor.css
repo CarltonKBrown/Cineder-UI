@@ -9,3 +9,11 @@
 .no-results{
     padding-top: 30%;
 }
+
+.details-btn{
+    visibility: hidden !important;
+}
+
+.card:hover .details-btn {
+    visibility: visible !important;
+}

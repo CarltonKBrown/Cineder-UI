@@ -18,10 +18,18 @@
                             {
                                 <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="card text-white bg-black mx-2">
-                                        <img src="@ImagePath(movie.PosterPath)" class="card-img" />
-                                        <div class="card-body">
-                                            <p class="card-text"><small class="text-muted">@movie.ReleaseDate.Year</small></p>
-                                            <p class="card-title fs-6">@movie.Name</p>
+                                        <div class="position-relative">
+                                            <img src="@ImagePath(movie.PosterPath)" class="card-img" />
+                                            <span @onclick="() => DetailsClicked(movie.Id)" 
+                                                 class="details-btn btn btn-sm btn-black rounded-pill position-absolute top-50 start-50 translate-middle"
+                                             >
+                                                Details
+                                                <i class="bi bi-arrow-right-short"></i>
+                                            </span>
+                                            <div class="card-body">
+                                                <p class="card-text"><small class="text-muted">@movie.ReleaseDate.Year</small></p>
+                                                <p class="card-title fs-6">@movie.Name</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

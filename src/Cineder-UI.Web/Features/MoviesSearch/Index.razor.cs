@@ -2,6 +2,7 @@
 using Cineder_UI.Web.Interfaces.Store;
 using Cineder_UI.Web.Models.Common;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace Cineder_UI.Web.Features.MoviesSearch
 {
@@ -12,6 +13,9 @@ namespace Cineder_UI.Web.Features.MoviesSearch
 
         [Inject]
         IStateContainer? Store { get; set; }
+
+        [Inject]
+        IJSRuntime? Js { get; set; }
 
         [SupplyParameterFromForm]
         public MovieSearchPageModel PageModel { get; set; } = new();
@@ -72,6 +76,13 @@ namespace Cineder_UI.Web.Features.MoviesSearch
             NavMngr.NavigateTo($"/movies?searchText={SearchText}&page={Page}");
 
             IsBusy = false;
+        }
+
+        private async Task ToDetailsPage(long movieId)
+        {
+            await Js.InvokeVoidAsync("alert", $"{movieId}");
+
+            // NavMngr.NavigateTo($"/movies/{movieId}");
         }
 
         private async Task ChangePage(string pageNum)
