@@ -2,7 +2,7 @@
 <div class="overflow-auto scroll-content">
     <div class="container">
         <div class="row">
-            <div class="col-12">
+            <div class="col">
                 @if (Rows < 1)
                 {
                     <div class="no-results">
@@ -16,7 +16,7 @@
                         <div class="card-group">
                             @foreach (var movie in RowItems[row])
                             {
-                                <div class="col-lg-2 col-md-4 col-sm-4">
+                                <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="card text-white bg-black mx-2">
                                         <img src="@ImagePath(movie.PosterPath)" class="card-img" />
                                         <div class="card-body">

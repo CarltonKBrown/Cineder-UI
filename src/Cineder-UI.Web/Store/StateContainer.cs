@@ -3,6 +3,7 @@ using Cineder_UI.Web.Interfaces.Store;
 using Cineder_UI.Web.Models.Api;
 using Cineder_UI.Web.Models.Common;
 using Microsoft.Extensions.Options;
+using System.IO;
 
 namespace Cineder_UI.Web.Store
 {
@@ -114,25 +115,48 @@ namespace Cineder_UI.Web.Store
             }
         }
 
-        public async Task SetHomePageSearch(string searchText, SiteMode siteMode)
+        public async Task SetPage(int page)
         {
             try
             {
-                var currentState = await GetAppStateAsync();
-
-                switch (siteMode)
+                switch (State.SiteMode)
                 {
-
                     case SiteMode.Movie:
-                        currentState = currentState with { SiteMode = siteMode, MovieState = currentState.MovieState with { SearchText = searchText } };
+                        await SetMoviePage(page);
                         break;
                     case SiteMode.Series:
-                        currentState = currentState with { SiteMode = siteMode, SeriesState = currentState.SeriesState with { SearchText = searchText } };
+                        await SetSeriesPage(page);
                         break;
                     case SiteMode.None:
                     default:
                         break;
                 }
+            }
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
+        }
+
+        private async Task SetMoviePage(int page)
+        {
+            try
+            {
+                if (State.MovieState.SearchResult.Page.Equals(page))
+                {
+                    return;
+                }
+
+                var currentState = State with
+                {
+                    MovieState = State.MovieState with
+                    {
+                        SearchResult = State.MovieState.SearchResult with
+                        {
+                            Page = page
+                        }
+                    }
+                };
 
                 await CommitAppStateAsync(currentState);
             }
@@ -142,24 +166,90 @@ namespace Cineder_UI.Web.Store
             }
         }
 
+        private async Task SetSeriesPage(int page)
+        {
+            try
+            {
+                if (State.SeriesState.SearchResult.Page.Equals(page))
+                {
+                    return;
+                }
+
+                var currentState = State with
+                {
+                    SeriesState = State.SeriesState with
+                    {
+                        SearchResult = State.SeriesState.SearchResult with
+                        {
+                            Page = page
+                        }
+                    }
+                };
+
+                await CommitAppStateAsync(currentState);
+            }
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
+        }
+
+        public async Task SetHomePageSearch(string searchText, SiteMode siteMode)
+        {
+            try
+            {
+                switch (siteMode)
+                {
+                    case SiteMode.Movie:
+                        await SetHomePageMovieSearch(searchText);
+                        return;
+                    case SiteMode.Series:
+                        var currentState = State with { SiteMode = siteMode, SeriesState = State.SeriesState with { SearchText = searchText } };
+                        await CommitAppStateAsync(currentState);
+                        return;
+                    case SiteMode.None:
+                    default:
+                        return;
+                }
+            }
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
+        }
+
+        private async Task SetHomePageMovieSearch(string searchText) 
+        {
+            if (State.MovieState.SearchText.Equals(searchText, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+            
+            var movieResults = await SearchMovies(searchText);
+
+            var currentState = State with 
+            { 
+                SiteMode = SiteMode.Movie, 
+                MovieState = State.MovieState with 
+                { 
+                    SearchText = searchText, 
+                    SearchResult = movieResults 
+                } 
+            };
+
+            await CommitAppStateAsync(currentState);
+        }
+
+
 		public async Task SetMoviesSearch(string searchText, int page)
 		{
             try
             {
-                var currentState = await GetAppStateAsync();
+                var movieResults = await SearchMovies(searchText, page);
 
-                //if (currentState.MovieState.SearchText.Equals(searchText) && currentState.MovieState.SearchResult.Page == page)
-                //{
-                //    return;
-                //}
-
-                var request = new GetMoviesRequest(searchText, page);
-
-                var movieResults = await _movieService.GetMovies(request);
-
-				currentState = currentState with
+                var currentState = State with
 				{
-					MovieState = currentState.MovieState with
+					MovieState = State.MovieState with
 					{
 						SearchText = searchText,
 						SearchResult = movieResults
@@ -173,5 +263,23 @@ namespace Cineder_UI.Web.Store
                 await InitializeStore();
             }
 		}
-	}
+
+        private async Task<SearchResult<MoviesResult>> SearchMovies(string searchText, int page = 1)
+        {
+            var request = new GetMoviesRequest(searchText, page);
+
+            var response = await _movieService.GetMovies(request);
+
+            if ((response.Results?.Count() ?? 0) < 1)
+            {
+                var totalResults = State.MovieState.SearchResult?.TotalResults ?? 0;
+
+                var totalPage = State.MovieState.SearchResult?.TotalPages ?? 0;
+
+                response = new(page, [], totalResults, totalPage);
+            }
+
+            return response;
+        }
+    }
 }

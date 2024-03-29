@@ -11,39 +11,56 @@
             </nav>
         </div>
 		<div class="search-page-content">
-            <EditForm Model="PageModel">
-                <div class="container">
-                    <header class="border-bottom border-2 border-white mb-3">
-                        <h2 class="page-title">Movies</h2>
-                    </header>
-                </div>
-                <div class="search-filter-control-bar">
-                    <div class="container">
-                        <div class="row justify-content-between">
-                            <div class="search-wrapper col-6">
-                                <SearchBar SearchText="@PageModel.Search" PlaceHolder="Enter Movies" OnSubmit="ChangeSearch" />
-                            </div>
-                            <div class="filter-wrapper col-6 col-md-4 col-sm-6 col-lg-4">
-                                <SortBar Selected="PageModel!.Selected" OnSortChanged="ChangeSort" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="search-results-wrapper my-3">
-                    <MovieList Movies="PageModel.MoviesResults" />
-                </div>
-                <div class="page-control-bar">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-6">
-                                <PageControlBar CurrentPage="@PageString"
-                                                TotalPages="@TotalPagesString"
-                                                OnPageChange="ChangePage" />
+            <div class="container">
+                <header class="border-bottom border-2 border-white mb-3">
+                    <h2 class="page-title">Movies</h2>
+                </header>
+            </div>
+            @if (IsBusy)
+            {
+                <div class="container vh-100">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-center top-50">
+                                <div class="spinner-border text-light" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </EditForm>
+            }
+            else
+            {
+                <EditForm Model="PageModel">
+                    <div class="search-filter-control-bar">
+                        <div class="container">
+                            <div class="row justify-content-between">
+                                <div class="search-wrapper col-6">
+                                    <SearchBar SearchText="@PageModel.Search" PlaceHolder="Enter Movies" OnSubmit="ChangeSearch" />
+                                </div>
+                                <div class="filter-wrapper col-6 col-md-4 col-sm-6 col-lg-4">
+                                    <SortBar Selected="PageModel!.Selected" OnSortChanged="ChangeSort" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-results-wrapper my-3">
+                        <MovieList Movies="PageModel.MoviesResults" />
+                    </div>
+                    <div class="page-control-bar">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6">
+                                    <PageControlBar CurrentPage="@PageString"
+                                                    TotalPages="@TotalPagesString"
+                                                    OnPageChange="ChangePage" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </EditForm>
+            }
 		</div>
 	</div>
 </div>

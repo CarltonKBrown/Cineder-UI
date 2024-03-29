@@ -5,7 +5,7 @@ namespace Cineder_UI.Web.Features.MoviesSearch.Components
 {
 	public partial class MovieList
 	{
-        private readonly int _cols = 6;
+        private readonly int _cols = 4;
 
         [Parameter]
         public SearchResult<MoviesResult>? Movies { get; set; } = new();
@@ -53,10 +53,10 @@ namespace Cineder_UI.Web.Features.MoviesSearch.Components
         {
             if (string.IsNullOrWhiteSpace(posterPath))
             {
-                return "https://via.placeholder.com/300";
+                return "https://via.placeholder.com/400";
 			}
 
-            return $"https://image.tmdb.org/t/p/w300{posterPath}";
+            return $"https://image.tmdb.org/t/p/w400{posterPath}";
         }
     }
 }

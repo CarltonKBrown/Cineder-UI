@@ -34,7 +34,7 @@ namespace Cineder_UI.Web.Components
 
         private async Task BtnNext()
         {
-            if(!int.TryParse(CurrentPage, out var intData))
+            if(CurrentPage.Equals(TotalPages) || !int.TryParse(CurrentPage, out var intData))
             {
                 return;
             }
@@ -46,7 +46,7 @@ namespace Cineder_UI.Web.Components
 
         private async Task BtnPrev()
         {
-            if (!int.TryParse(CurrentPage, out var intData))
+            if (CurrentPage.Equals("1") || !int.TryParse(CurrentPage, out var intData))
             {
                 return;
             }
@@ -63,7 +63,7 @@ namespace Cineder_UI.Web.Components
 
         private async Task BtnLastPage()
         {
-            if (!int.TryParse(TotalPages, out var lastPage))
+            if (CurrentPage.Equals(TotalPages) || !int.TryParse(TotalPages, out var lastPage))
             {
                 return;
             }
