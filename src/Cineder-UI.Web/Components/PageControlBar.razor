@@ -1,19 +1,11 @@
-﻿<div class="d-flex flex-row">
+﻿<div class="d-flex justify-content-start">
 	<button class="btn btn-black btn-sm" @onclick=BtnFirstPage>
 		<i class="bi bi-chevron-double-left"></i>
 	</button>
 	<button class="btn btn-black btn-sm" @onclick=BtnPrev>
 		<i class="bi bi-chevron-compact-left"></i>
 	</button>
-	<span class="w-50">
-		<InputText 
-			@bind-Value="CurrentPage" 
-			@onchange="ChangePage" 
-			@onfocusout="ChangePage"
-			class="form-control form-control-sm text-center px-sm-4 px-md-4 px-lg-4 col-3"
-		/>
-	</span>
-	<span class="text-center">of @TotalPages</span>
+	<span class="text-center text-nowrap"> &nbsp; @CurrentPage&nbsp; of &nbsp; @TotalPages</span>
 	<button class="btn btn-black btn-sm" @onclick=BtnNext>
 		<i class="bi bi-chevron-compact-right"></i>
 	</button>

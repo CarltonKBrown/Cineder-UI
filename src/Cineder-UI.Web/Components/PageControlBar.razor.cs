@@ -5,70 +5,68 @@ namespace Cineder_UI.Web.Components
     public partial class PageControlBar
     {
         [Parameter]
-        public string CurrentPage { get; set; } = "1";
+        public int CurrentPage { get; set; } = 1;
 
         [Parameter]
-        public string TotalPages { get; set; } = "1";
+        public int TotalPages { get; set; } = 1;
 
         [Parameter]
-        public EventCallback<string> OnPageChange { get; set; }
+        public EventCallback<int> OnPageChange { get; set; }
 
-        private string LastPageBeforeChange {  get; set; } = "1";
+        private int LastPageBeforeChange {  get; set; } = 1;
 
-        private async Task ChangePage()
+        private async Task ChangePage(int newPage)
         {
-            if (CurrentPage.Equals(LastPageBeforeChange))
+            if (newPage.Equals(CurrentPage))
             {
                 return;
             }
 
-            if (!int.TryParse(CurrentPage, out _))
-            {
-                return;
-            }
-
-            LastPageBeforeChange = CurrentPage;
-
-            await OnPageChange.InvokeAsync(CurrentPage);
+            await OnPageChange.InvokeAsync(newPage);
         }
 
         private async Task BtnNext()
         {
-            if(CurrentPage.Equals(TotalPages) || !int.TryParse(CurrentPage, out var intData))
+            if(CurrentPage.Equals(TotalPages))
             {
                 return;
             }
 
-            var newPage = ++intData;
+            var nextPage = CurrentPage + 1;
 
-            await OnPageChange.InvokeAsync(newPage.ToString());
+			await ChangePage(nextPage);
         }
 
         private async Task BtnPrev()
         {
-            if (CurrentPage.Equals("1") || !int.TryParse(CurrentPage, out var intData))
+            if (CurrentPage.Equals(1))
             {
                 return;
             }
 
-            var newPage = intData < 2 ? 1 : --intData;
+            var previousPage = CurrentPage < 2 ? 1 : --CurrentPage;
 
-            await OnPageChange.InvokeAsync(newPage.ToString());
+            await ChangePage(previousPage);
         }
 
         private async Task BtnFirstPage()
         {
-            await OnPageChange.InvokeAsync("1");
+			if (CurrentPage.Equals(1))
+			{
+				return;
+			}
+
+			await ChangePage(1);
         }
 
         private async Task BtnLastPage()
         {
-            if (CurrentPage.Equals(TotalPages) || !int.TryParse(TotalPages, out var lastPage))
+            if (CurrentPage.Equals(TotalPages))
             {
                 return;
             }
 
-            await OnPageChange.InvokeAsync(lastPage.ToString());
+            await ChangePage(TotalPages);
         }
     }
 }

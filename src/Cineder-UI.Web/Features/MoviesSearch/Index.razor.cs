@@ -28,9 +28,7 @@ namespace Cineder_UI.Web.Features.MoviesSearch
         [SupplyParameterFromQuery]
         public int Page { get; set; } = 1;
 
-        public string PageString => Page.ToString();
-
-        public string TotalPagesString => PageModel?.MoviesResults?.TotalPages.ToString() ?? "";
+        public int TotalPages => PageModel?.MoviesResults?.TotalPages ?? 1;
 
         private bool IsBusy {  get; set; } = false;
 
@@ -85,14 +83,9 @@ namespace Cineder_UI.Web.Features.MoviesSearch
             // NavMngr.NavigateTo($"/movies/{movieId}");
         }
 
-        private async Task ChangePage(string pageNum)
+        private async Task ChangePage(int pageNum)
         {
-            if (!int.TryParse(pageNum, out var pageNumInt))
-            {
-                return;
-            }
-
-            await Store!.SetPage(pageNumInt);
+            await Store!.SetPage(pageNum);
 
             Page = Store!.State.MovieState.SearchResult.Page;
 
