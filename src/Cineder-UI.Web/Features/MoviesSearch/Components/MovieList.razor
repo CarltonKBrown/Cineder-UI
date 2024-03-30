@@ -27,8 +27,16 @@
                                                 <i class="bi bi-arrow-right-short"></i>
                                             </span>
                                             <div class="card-body">
-                                                <p class="card-text"><small class="text-muted">@movie.ReleaseDate.Year</small></p>
-                                                <p class="card-title fs-6">@movie.Name</p>
+                                                <div class="row">
+                                                    <div class="col-12 ps-0 pe-0">
+                                                       <div class="float-start card-body-text">
+                                                            <p class="card-text fw-bold">@movie.ReleaseDate.Year</p>
+                                                       </div>
+                                                        <div class="float-end card-body-text">
+                                                            <StarRating Rating="@(movie.VoteAverage/2)" Colour="gold"></StarRating>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

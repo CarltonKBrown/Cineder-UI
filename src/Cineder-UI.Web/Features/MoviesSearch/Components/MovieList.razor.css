@@ -17,3 +17,10 @@
 .card:hover .details-btn {
     visibility: visible !important;
 }
+
+@media (max-width: 995px) {
+    .card-body-text {
+        float: none !important;
+        text-align: center;
+    }
+}
