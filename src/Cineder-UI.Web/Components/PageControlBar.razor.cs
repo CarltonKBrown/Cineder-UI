@@ -44,7 +44,7 @@ namespace Cineder_UI.Web.Components
                 return;
             }
 
-            var previousPage = CurrentPage < 2 ? 1 : --CurrentPage;
+            var previousPage = CurrentPage < 2 ? 1 : CurrentPage - 1;
 
             await ChangePage(previousPage);
         }

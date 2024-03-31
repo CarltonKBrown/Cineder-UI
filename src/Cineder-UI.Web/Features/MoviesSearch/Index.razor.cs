@@ -85,6 +85,10 @@ namespace Cineder_UI.Web.Features.MoviesSearch
 
         private async Task ChangePage(int pageNum)
         {
+            if (pageNum < 1 || pageNum.Equals(Store!.State.MovieState.SearchResult.Page))
+            {
+                return;
+            }
             await Store!.SetPage(pageNum);
 
             Page = Store!.State.MovieState.SearchResult.Page;
@@ -94,16 +98,20 @@ namespace Cineder_UI.Web.Features.MoviesSearch
 
         private async Task ChangeSearch(string searchText)
         {
-            if (string.IsNullOrWhiteSpace(searchText))
+            if (string.IsNullOrWhiteSpace(searchText) || searchText.Equals(Store!.State.MovieState.SearchText))
             {
                 return;
             }
 
             await Store!.SetSearchText(searchText);
 
-            SearchText = Store!.State.MovieState.SearchText;
+			await Store!.SetPage(1);
 
-            await SearchMovies();
+			SearchText = Store!.State.MovieState.SearchText;
+
+			Page = Store!.State.MovieState.SearchResult.Page;
+
+			await SearchMovies();
         }
 
         private void ChangeSort(int sortVal)
@@ -154,7 +162,7 @@ namespace Cineder_UI.Web.Features.MoviesSearch
                 },
                 _ or SortOptions.None => PageModel.MoviesResults with
                 {
-                    Results = PageModel.MoviesResults.Results.OrderByDescending(x => x.Idx)
+                    Results = PageModel.MoviesResults.Results.OrderBy(x => x.Idx)
                 }
             };
         }
