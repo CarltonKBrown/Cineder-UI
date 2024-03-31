@@ -1,8 +1,12 @@
-﻿<div class="input-group">
-    <InputText @bind-Value="SearchText" class="form-control bg-black text-white border-0"
-               placeholder="@PlaceHolder" />
-    <button type="submit" class="btn btn-black" @onclick="SubmitSearch">
-        <i class="bi bi-search"></i>
-    </button>
+﻿<div class="row">
+	<div class="col-12">
+		<div class="input-group d-flex flex-nowrap">
+			<InputText @bind-Value="SearchText" class="form-control bg-black text-white border-0 rounded-pill"
+						placeholder="@PlaceHolder" />
+			<button type="submit" class="btn btn-black" @onclick="SubmitSearch">
+				<i class="bi bi-search"></i>
+			</button>
+		</div>
+	</div>
 </div>
 

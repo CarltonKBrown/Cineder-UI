@@ -16,9 +16,9 @@ namespace Cineder_UI.Web.Components
 
         private bool IsFrac {  get; set; }
 
-        private ICollection<string> WholeRatingClasses { get; set; } = ["bi", "bi-star-fill", "mx-1"] ;
-        private ICollection<string> FracRatingClasses { get; set; } = ["bi", "bi-star-half", "mx-1"];
-        private ICollection<string> EmptyRatingClasses { get; set; } = ["bi", "bi-star", "mx-1"];
+        private ICollection<string> WholeRatingClasses { get; set; } = ["bi", "bi-star-fill"] ;
+        private ICollection<string> FracRatingClasses { get; set; } = ["bi", "bi-star-half"];
+        private ICollection<string> EmptyRatingClasses { get; set; } = ["bi", "bi-star"];
 
         protected override void OnInitialized()
         {

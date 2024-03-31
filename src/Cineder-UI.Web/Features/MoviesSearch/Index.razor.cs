@@ -71,9 +71,9 @@ namespace Cineder_UI.Web.Features.MoviesSearch
 
             await Store!.SetMoviesSearch(SearchText, Page);
 
-            NavMngr.NavigateTo($"/movies?searchText={SearchText}&page={Page}");
+			IsBusy = false;
 
-            IsBusy = false;
+			NavMngr.NavigateTo($"/movies?searchText={SearchText}&page={Page}");
         }
 
         private async Task ToDetailsPage(long movieId)

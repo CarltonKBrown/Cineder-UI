@@ -1,5 +1,7 @@
 ﻿.scroll-content{
     height: 80vh;
+    overflow-y:auto;
+    overflow-x:hidden;
 }
 
 .movie-img{
@@ -16,6 +18,13 @@
 
 .card:hover .details-btn {
     visibility: visible !important;
+}
+
+
+.card:hover img {
+    filter:
+        grayscale(0.5)
+        brightness(0.4);
 }
 
 @media (max-width: 995px) {

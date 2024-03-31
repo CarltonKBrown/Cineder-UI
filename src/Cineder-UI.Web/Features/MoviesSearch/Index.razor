@@ -35,28 +35,26 @@
                 <EditForm Model="PageModel">
                     <div class="search-filter-control-bar">
                         <div class="container">
-                            <div class="row justify-content-between">
-                                <div class="search-wrapper col-6">
-                                    <SearchBar SearchText="@PageModel.Search" PlaceHolder="Enter Movies" OnSubmit="ChangeSearch" />
-                                </div>
-                                <div class="filter-wrapper col-6 col-md-4 col-sm-6 col-lg-4">
-                                    <SortBar Selected="PageModel!.Selected" OnSortChanged="ChangeSort" />
+                            <div class="row">
+                                <div class="col-12 flex-nowrap">
+                                    <div class="search-wrapper col-6 float-start">
+                                        <SearchBar SearchText="@PageModel.Search" PlaceHolder="Enter Movies" OnSubmit="ChangeSearch" />
+                                    </div>
+                                    <div class="filter-wrapper col-4 float-end">
+                                        <SortBar Selected="PageModel!.Selected" OnSortChanged="ChangeSort" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="search-results-wrapper my-3">
-                        <MovieList Movies="PageModel.MoviesResults" OnDetailsClicked="ToDetailsPage" />
+                        <div class="container">
+                            <MovieList Movies="PageModel.MoviesResults" OnDetailsClicked="ToDetailsPage" />
+                        </div>
                     </div>
                     <div class="page-control-bar">
                         <div class="container">
-                            <div class="row">
-                                <div class="col-12">
-                                    <PageControlBar CurrentPage="@Page"
-                                                    TotalPages="@TotalPages"
-                                                    OnPageChange="ChangePage" />
-                                </div>
-                            </div>
+                            <PageControlBar CurrentPage="Page" TotalPages="TotalPages" OnPageChange="ChangePage" />
                         </div>
                     </div>
                 </EditForm>
