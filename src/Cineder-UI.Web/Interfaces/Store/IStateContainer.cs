@@ -19,7 +19,10 @@ namespace Cineder_UI.Web.Interfaces.Store
 
         Task SetSiteMode(SiteMode siteMode);
         Task SetSearchText(string searchText);
+        Task SetPage(int page);
 
         Task SetHomePageSearch(string searchText, SiteMode siteMode);
+
+        Task SetMoviesSearch(string searchText, int page);
     }
 }

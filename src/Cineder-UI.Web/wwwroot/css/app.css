@@ -1,12 +1,11 @@
 html,
 body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-body {
-    min-width: 360px;
-    min-height: 800px;
+    margin: 0;
+    height: 100%;
     overflow: hidden;
+    min-width: 360px !important;
+    min-height: 800px !important;
 }
 
 h1:focus {
@@ -112,4 +111,21 @@ a,
 
 code {
     color: #c02d76;
+}
+
+.site-content {
+    background-color: black;
+    color: white;
+    height: 100vh;
+}
+
+.btn-black
+{
+    color: white;
+    background-color: black;
+    border-color: black
+}
+
+.bg-black{
+    background-color: black;
 }

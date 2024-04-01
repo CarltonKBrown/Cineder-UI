@@ -1,0 +1,67 @@
+﻿@page "/movies"
+
+<div class="container site-content">
+	<div class="container">
+        <div class="container">
+            <BreadCrumbNav BreadCrumbs="NavItems"></BreadCrumbNav>
+        </div>
+		<div class="search-page-content">
+            <div class="container">
+                <header class="border-bottom border-2 border-white mb-3">
+                    <h2 class="page-title">Movies</h2>
+                </header>
+            </div>
+            @if (IsBusy)
+            {
+                <div class="container vh-100">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-center top-50">
+                                <div class="spinner-border text-light" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <EditForm Model="PageModel">
+                    <div class="search-filter-control-bar">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 flex-nowrap">
+                                    <div class="search-wrapper col-6 float-start">
+                                        <SearchBar SearchText="@PageModel.Search" PlaceHolder="Enter Movies" OnSubmit="ChangeSearch" />
+                                    </div>
+                                    <div class="filter-wrapper col-4 float-end">
+                                        <SortBar Selected="PageModel!.Selected" OnSortChanged="ChangeSort" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-results-wrapper my-3">
+                        <div class="container">
+                            <MovieList Movies="PageModel.MoviesResults" OnDetailsClicked="ToDetailsPage" />
+                        </div>
+                    </div>
+                    <div class="page-control-bar">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col mx-auto">
+                                    <PageControlBar CurrentPage="Page" TotalPages="TotalPages" OnPageChange="ChangePage" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </EditForm>
+            }
+		</div>
+	</div>
+</div>
+
+@code {
+
+}

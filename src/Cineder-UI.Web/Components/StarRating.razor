@@ -1,0 +1,18 @@
+﻿<div class="text-nowrap">
+	@foreach (var item in Enumerable.Range(1, Rate))
+	{
+		<i class="@(string.Join(" ", WholeRatingClasses))"></i>
+
+		<span>&nbsp;</span>
+	}
+	@if (IsFrac)
+	{
+		<i class="@(string.Join(" ", FracRatingClasses))"></i>
+
+		<span>&nbsp;</span>
+	}
+	@foreach (var item in Enumerable.Range(1, EmptyRate))
+	{
+		<i class="@(string.Join(" ", EmptyRatingClasses))"></i>
+	}
+</div>

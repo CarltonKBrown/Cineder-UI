@@ -1,0 +1,15 @@
+﻿<div class="row">
+	<div class="col-12">
+        <div class="input-group d-flex flex-nowrap">
+            <span class="input-group-text btn-black">
+                <i class="bi bi-arrow-down-up"></i>
+            </span>
+            <InputSelect class="form-select bg-black text-white border-0" @bind-Value="Selected" @onfocusout="SortChanged">
+                @foreach (var filter in FilterOptions!)
+                {
+                    <option value="@filter.Value">@filter.Name</option>
+                }
+            </InputSelect>
+        </div>
+	</div>
+</div>
