@@ -1,7 +1,7 @@
-﻿.scroll-content{
-    height: 80vh;
-    overflow-y:auto;
-    overflow-x:hidden;
+﻿.scroll-content {
+    height: 65vh;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .movie-img{

@@ -1,11 +1,11 @@
 html,
 body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-body {
-    min-width: 360px;
-    min-height: 800px;
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    min-width: 360px !important;
+    min-height: 800px !important;
 }
 
 h1:focus {
