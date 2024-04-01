@@ -76,7 +76,7 @@ namespace Cineder_UI.Web.Features.MoviesSearch
 			NavMngr.NavigateTo($"/movies?searchText={SearchText}&page={Page}");
         }
 
-        private IEnumerable<BreadCrumbItem> NavItems
+        private static IEnumerable<BreadCrumbItem> NavItems
         {
             get
             {
