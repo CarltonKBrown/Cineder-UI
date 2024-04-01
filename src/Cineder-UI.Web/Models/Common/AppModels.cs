@@ -45,4 +45,9 @@ namespace Cineder_UI.Web.Models.Common
 			};
 		}
     }
+
+	public record BreadCrumbItem(string Text, string Link, bool IsActive)
+	{
+        public BreadCrumbItem():this(string.Empty, string.Empty, false) {}
+    }
 }

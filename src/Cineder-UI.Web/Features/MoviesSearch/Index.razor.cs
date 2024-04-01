@@ -76,6 +76,18 @@ namespace Cineder_UI.Web.Features.MoviesSearch
 			NavMngr.NavigateTo($"/movies?searchText={SearchText}&page={Page}");
         }
 
+        private IEnumerable<BreadCrumbItem> NavItems
+        {
+            get
+            {
+                return 
+                [
+                    new BreadCrumbItem("Home", "/", false),
+                    new BreadCrumbItem("Movies", "/movies", true),
+				];
+            }
+        }
+
         private async Task ToDetailsPage(long movieId)
         {
             await Js.InvokeVoidAsync("alert", $"{movieId}");
