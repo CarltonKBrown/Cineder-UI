@@ -1,0 +1,49 @@
+﻿
+<div class="scroll-content">
+    <div class="row">
+        <div class="col">
+            @if (Rows < 1)
+            {
+                <div class="no-results">
+                    <p class="text-center">No results</p>
+                </div>
+            }
+            else
+            {
+                @for (int row = 0; row < Rows; row++)
+                {
+                    <div class="row card-group">
+                        @foreach (var series in RowItems[row])
+                        {
+                            <div class="col-sm-3 col-md-3">
+                                <div class="card text-white bg-black mx-1">
+                                    <div class="position-relative">
+                                        <img src="@ImagePath(series.PosterPath)" class="card-img" />
+                                        <span @onclick="() => DetailsClicked(series.Id)"
+                                              class="details-btn btn btn-sm btn-outline-light rounded-pill position-absolute top-50 start-50 translate-middle text-nowrap">
+                                            <span class="text-uppercase fw-bold">More</span>&nbsp;
+                                            <i class="bi bi-arrow-right-short fw-bold"></i>
+                                        </span>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12 ps-0 pe-0">
+                                                    <div class="float-start card-body-text">
+                                                        <p class="card-text fw-bold">@series.FirstAirDate.Year</p>
+                                                    </div>
+                                                    <div class="float-end card-body-text">
+                                                        <StarRating Rating="@(series.VoteAverage/2)" Colour="gold"></StarRating>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
