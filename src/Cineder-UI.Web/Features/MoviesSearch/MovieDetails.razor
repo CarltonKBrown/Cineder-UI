@@ -1,0 +1,24 @@
+﻿@page "/movies/{id:int}"
+<PageTitle>Cineder - @PageName</PageTitle>
+
+<div class="container site-content">
+    <div class="container">
+        <div class="container">
+            <BreadCrumbNav BreadCrumbs="NavItems"></BreadCrumbNav>
+        </div>
+        <div class="container">
+            <header class="border-bottom border-2 border-white mb-3">
+                <h2 class="page-title">@PageName</h2>
+            </header>
+        </div>
+    </div>
+    <div>
+        <div class="position-relative">
+            <div class="position-absolute top-50 start-50">
+                <p>@Id</p>
+                <img src="@ImagePath(Movie.PostePath)" class="card-img" />
+            </div>
+        </div>
+    </div>
+</div>
+

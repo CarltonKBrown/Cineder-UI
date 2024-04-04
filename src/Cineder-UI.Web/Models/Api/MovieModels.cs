@@ -15,9 +15,9 @@
         public GetMoviesRequest() : this(string.Empty, 0) { }
     }
 
-    public record GetMovieIdRequest(long Id)
+    public record GetMovieByIdRequest(long Id)
     {
-        public GetMovieIdRequest() : this(0) { }
+        public GetMovieByIdRequest() : this(0) { }
     }
 
     public record GetMoviesSimilarRequest(long MovieId, int Page)

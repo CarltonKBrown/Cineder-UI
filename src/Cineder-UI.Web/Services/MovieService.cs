@@ -15,7 +15,7 @@ public class MovieService : HttpServiceBase, IMovieService
         _apiOptions = apiOptions.Value.Prevent(nameof(apiOptions)).Value;
     }
 
-    public async Task<MovieDetail> GetMovieByIdAsync(GetMovieIdRequest request)
+    public async Task<MovieDetail> GetMovieByIdAsync(GetMovieByIdRequest request)
     {
         var url = $"{_apiOptions.BaseUrl}/movies/{request.Id}";
 
