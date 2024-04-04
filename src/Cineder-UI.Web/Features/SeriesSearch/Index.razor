@@ -1,13 +1,14 @@
-﻿@page "/movies"
+﻿@page "/series"
 
 <PageTitle>Cineder - @PageTitle</PageTitle>
 
+
 <div class="container site-content">
-	<div class="container">
+    <div class="container">
         <div class="container">
             <BreadCrumbNav BreadCrumbs="NavItems"></BreadCrumbNav>
         </div>
-		<div class="search-page-content">
+        <div class="search-page-content">
             <div class="container">
                 <header class="border-bottom border-2 border-white mb-3">
                     <h2 class="page-title">@PageTitle</h2>
@@ -35,7 +36,7 @@
                             <div class="row">
                                 <div class="col-12 flex-nowrap">
                                     <div class="search-wrapper col-6 float-start">
-                                        <SearchBar SearchText="@PageModel.Search" PlaceHolder="Enter Movies" OnSubmit="ChangeSearch" />
+                                        <SearchBar SearchText="@PageModel.Search" PlaceHolder="Enter Series" OnSubmit="ChangeSearch" />
                                     </div>
                                     <div class="filter-wrapper col-4 float-end">
                                         <SortBar Selected="PageModel!.Selected" OnSortChanged="ChangeSort" />
@@ -46,7 +47,7 @@
                     </div>
                     <div class="search-results-wrapper my-3">
                         <div class="container">
-                            <MovieList Movies="PageModel.MoviesResults" OnDetailsClicked="ToDetailsPage" />
+                            <SeriesList Series="PageModel.SeriesResults" OnDetailsClicked="ToDetailsPage" />
                         </div>
                     </div>
                     <div class="page-control-bar">
@@ -60,10 +61,6 @@
                     </div>
                 </EditForm>
             }
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
-
-@code {
-
-}

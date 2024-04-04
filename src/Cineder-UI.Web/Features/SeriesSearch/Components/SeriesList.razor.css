@@ -1,0 +1,29 @@
+﻿.scroll-content {
+    height: 65vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.no-results {
+    padding-top: 30%;
+}
+
+.details-btn {
+    visibility: hidden !important;
+}
+
+.card:hover .details-btn {
+    visibility: visible !important;
+}
+
+
+.card:hover img {
+    filter: grayscale(0.5) brightness(0.4);
+}
+
+@media (max-width: 995px) {
+    .card-body-text {
+        float: none !important;
+        text-align: center;
+    }
+}

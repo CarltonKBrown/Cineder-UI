@@ -3,7 +3,6 @@ using Cineder_UI.Web.Interfaces.Store;
 using Cineder_UI.Web.Models.Api;
 using Cineder_UI.Web.Models.Common;
 using Microsoft.Extensions.Options;
-using System.IO;
 
 namespace Cineder_UI.Web.Store
 {
@@ -11,12 +10,14 @@ namespace Cineder_UI.Web.Store
     {
         private readonly IBrowserStorageService _browserStorage;
         private readonly SessionOptions _sessionOptions;
-        private readonly IMovieService _movieService;   
-        public StateContainer(IBrowserStorageService browserStorage, IOptionsSnapshot<SessionOptions> sessionOptions, IMovieService movieService)
+        private readonly IMovieService _movieService;
+        private readonly ISeriesService _seriesService;
+        public StateContainer(IBrowserStorageService browserStorage, IOptionsSnapshot<SessionOptions> sessionOptions, IMovieService movieService, ISeriesService seriesService)
         {
             _browserStorage = browserStorage;
             _sessionOptions = sessionOptions.Value;
             _movieService = movieService;
+            _seriesService = seriesService;
         }
 
         public AppState State { get; private set; } = new();
@@ -204,8 +205,7 @@ namespace Cineder_UI.Web.Store
                         await SetHomePageMovieSearch(searchText);
                         return;
                     case SiteMode.Series:
-                        var currentState = State with { SiteMode = siteMode, SeriesState = State.SeriesState with { SearchText = searchText } };
-                        await CommitAppStateAsync(currentState);
+                        await SetHomePageSeriesSearch(searchText);
                         return;
                     case SiteMode.None:
                     default:
@@ -218,51 +218,76 @@ namespace Cineder_UI.Web.Store
             }
         }
 
-        private async Task SetHomePageMovieSearch(string searchText) 
+        private async Task SetHomePageMovieSearch(string searchText)
         {
-            if (State.MovieState.SearchText.Equals(searchText, StringComparison.OrdinalIgnoreCase))
+            var currentState = State with
             {
-                return;
-            }
-            
-            var movieResults = await SearchMovies(searchText);
-
-            var currentState = State with 
-            { 
-                SiteMode = SiteMode.Movie, 
-                MovieState = State.MovieState with 
-                { 
-                    SearchText = searchText, 
-                    SearchResult = movieResults 
-                } 
+                SiteMode = SiteMode.Movie
             };
+
+            if (!State.MovieState.SearchText.Equals(searchText, StringComparison.OrdinalIgnoreCase))
+            {
+                var movieResults = await SearchMovies(searchText);
+
+                currentState = currentState with
+                {
+                    MovieState = State.MovieState with
+                    {
+                        SearchText = searchText,
+                        SearchResult = movieResults
+                    }
+                };
+            }
 
             await CommitAppStateAsync(currentState);
         }
 
+        private async Task SetHomePageSeriesSearch(string searchText)
+        {
+            var currentState = State with
+            {
+                SiteMode = SiteMode.Series
+            };
 
-		public async Task SetMoviesSearch(string searchText, int page)
-		{
+            if (!State.SeriesState.SearchText.Equals(searchText, StringComparison.OrdinalIgnoreCase))
+            {
+                var seriesResults = await SearchSeries(searchText);
+
+                currentState = currentState with
+                {
+                    SeriesState = State.SeriesState with
+                    {
+                        SearchText = searchText,
+                        SearchResult = seriesResults
+                    }
+                };
+            }
+
+            await CommitAppStateAsync(currentState);
+        }
+
+        public async Task SetMoviesSearch(string searchText, int page)
+        {
             try
             {
                 var movieResults = await SearchMovies(searchText, page);
 
                 var currentState = State with
-				{
-					MovieState = State.MovieState with
-					{
-						SearchText = searchText,
-						SearchResult = movieResults
-					}
-				};
+                {
+                    MovieState = State.MovieState with
+                    {
+                        SearchText = searchText,
+                        SearchResult = movieResults
+                    }
+                };
 
-				await CommitAppStateAsync(currentState);
-			}
+                await CommitAppStateAsync(currentState);
+            }
             catch (Exception)
             {
                 await InitializeStore();
             }
-		}
+        }
 
         private async Task<SearchResult<MoviesResult>> SearchMovies(string searchText, int page = 1)
         {
@@ -280,6 +305,47 @@ namespace Cineder_UI.Web.Store
             }
 
             return response;
+        }
+
+        private async Task<SearchResult<SeriesResult>> SearchSeries(string searchText, int page = 1)
+        {
+            var request = new GetSeriesRequest(searchText, page);
+
+            var response = await _seriesService.GetSeries(request);
+
+            if ((response.Results?.Count() ?? 0) < 1)
+            {
+                var totalResults = State.SeriesState.SearchResult?.TotalResults ?? 0;
+
+                var totalPage = State.SeriesState.SearchResult?.TotalPages ?? 0;
+
+                response = new(page, [], totalResults, totalPage);
+            }
+
+            return response;
+        }
+
+        public async Task SetSeriesSearch(string searchText, int page)
+        {
+            try
+            {
+                var seriesResults = await SearchSeries(searchText, page);
+
+                var currentState = State with
+                {
+                    SeriesState = State.SeriesState with
+                    {
+                        SearchText = searchText,
+                        SearchResult = seriesResults
+                    }
+                };
+
+                await CommitAppStateAsync(currentState);
+            }
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
         }
     }
 }

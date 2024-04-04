@@ -32,6 +32,7 @@ namespace Cineder_UI.Web.Features.MoviesSearch
 
         private bool IsBusy {  get; set; } = false;
 
+        public string PageTitle { get; } = "Movies";
         protected override async Task OnInitializedAsync()
         {
             IsBusy = true;
@@ -148,31 +149,31 @@ namespace Cineder_UI.Web.Features.MoviesSearch
         {
             PageModel.MoviesResults = sortOption switch
             {
-                SortOptions.AlphaAsc => PageModel.MoviesResults with
+                SortOptions.AlphaAsc => PageModel.MoviesResults! with
                 {
                     Results = PageModel.MoviesResults.Results.OrderBy(x => x.Name)
                 },
-                SortOptions.AlphaDesc => PageModel.MoviesResults with
+                SortOptions.AlphaDesc => PageModel.MoviesResults! with
                 {
                     Results = PageModel.MoviesResults.Results.OrderByDescending(x => x.Name)
                 },
-                SortOptions.YearAsc => PageModel.MoviesResults with
+                SortOptions.YearAsc => PageModel.MoviesResults! with
                 {
                     Results = PageModel.MoviesResults.Results.OrderBy(x => x.ReleaseDate.Year)
                 },
-                SortOptions.YearDesc => PageModel.MoviesResults with
+                SortOptions.YearDesc => PageModel.MoviesResults! with
                 {
                     Results = PageModel.MoviesResults.Results.OrderByDescending(x => x.ReleaseDate.Year)
                 },
-                SortOptions.RatingsAsc => PageModel.MoviesResults with
+                SortOptions.RatingsAsc => PageModel.MoviesResults! with
                 {
                     Results = PageModel.MoviesResults.Results.OrderBy(x => x.VoteAverage)
                 },
-                SortOptions.RatingsDesc => PageModel.MoviesResults with
+                SortOptions.RatingsDesc => PageModel.MoviesResults! with
                 {
                     Results = PageModel.MoviesResults.Results.OrderByDescending(x => x.VoteAverage)
                 },
-                _ or SortOptions.None => PageModel.MoviesResults with
+                _ or SortOptions.None => PageModel.MoviesResults! with
                 {
                     Results = PageModel.MoviesResults.Results.OrderBy(x => x.Idx)
                 }
