@@ -25,21 +25,30 @@ namespace Cineder_UI.Web.Features.MoviesSearch
                 new BreadCrumbItem($"{Movie.Name}", $"/movies/{Id}", true)
             ];
 
+        private bool IsLoading { get; set; } = false;
 
         protected override async Task OnInitializedAsync()
         {
+            IsLoading = true;
+
             await Store.SetMovieDetail(Id);
 
             Movie = Store.State.MovieState.MovieDetail;
 
             await base.OnInitializedAsync();
+
+            IsLoading = false;
         }
 
-        protected override Task OnParametersSetAsync()
+        protected override void OnParametersSet()
         {
+            IsLoading = true;
+
             Movie = Store.State.MovieState.MovieDetail;
 
-            return base.OnParametersSetAsync();
+           base.OnParametersSetAsync();
+
+            IsLoading = false;
         }
 
         private static string ImagePath(string posterPath)
