@@ -6,5 +6,8 @@ namespace Cineder_UI.Web.Components
     {
         [Parameter]
         public bool IsLoading { get; set; } = false;
+
+        [Parameter]
+        public RenderFragment? ChildContent { get; set; }
     }
 }

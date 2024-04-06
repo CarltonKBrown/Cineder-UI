@@ -2,6 +2,7 @@
 using Cineder_UI.Web.Models.Api;
 using Cineder_UI.Web.Models.Common;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace Cineder_UI.Web.Features.MoviesSearch
 {
@@ -12,6 +13,9 @@ namespace Cineder_UI.Web.Features.MoviesSearch
 
         [Inject]
         protected IStateContainer Store { get; set; } = default!;
+
+        [Inject]
+        protected IJSRuntime Js { get; set; } = default!;
 
         protected MovieDetail Movie { get; set; } = new();
 
@@ -55,10 +59,31 @@ namespace Cineder_UI.Web.Features.MoviesSearch
         {
             if (string.IsNullOrWhiteSpace(posterPath))
             {
-                return "https://via.placeholder.com/400";
+                return "https://via.placeholder.com/300";
             }
 
-            return $"https://image.tmdb.org/t/p/w400{posterPath}";
+            return $"https://image.tmdb.org/t/p/w300{posterPath}";
+        }
+
+        private async Task SimilarClicked()
+        {
+            await Js.InvokeVoidAsync("alert", $"{Id} - {Movie.PosterPath}");
+        }
+
+        private static string TrailerPath(IEnumerable<Video> videos)
+        {
+            var embedKey = string.Empty;
+
+            if (!(videos?.Any() ?? false))
+            {
+                embedKey = string.Empty;
+            }
+
+            embedKey = videos?.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Key))?.Key ?? string.Empty;
+
+            var basePath = "https://www.youtube.com/embed/";
+
+            return $"{basePath}{embedKey}";
         }
     }
 }
