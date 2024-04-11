@@ -19,10 +19,10 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                   <div class="justify-content-center">
+                                   <div class="text-center">
                                         <span @onclick="SimilarClicked"
                                               class="btn btn-sm btn-outline-light rounded-pill text-nowrap">
-                                            <span class="text-uppercase fw-bold">More</span>&nbsp;
+                                            <span class="text-uppercase fw-bold">You may also like...</span>&nbsp;
                                             <i class="bi bi-arrow-right-short fw-bold"></i>
                                         </span>
                                    </div>
@@ -39,29 +39,67 @@
                         </div>
                     </div>
                     <div class="row my-3">
-                        <div class="d-flex flex-row">
-                            <span>
+                        <div class="d-flex">
+                            <span class="flex-fill">
                                 @Movie.ReleaseDate.Year
                             </span>
-                            <span class="mx-3">
-                                @Movie.Runtime
+                            <span class="flex-fill">
+                                @FormatDuration
                             </span>
-                            <span>
-                                @(string.Join(", ", Movie.Genres.Select(x => x.Name)))
+                            <span class="flex-fill">
+                                @FormatGenres
                             </span>
                        </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <p class="justi">
+                            <p>
+                                <span class="fs-4 text-decoration-underline">
+                                    Plot
+                                </span>
+                            </p>
+                            <p>
                                 @Movie.Overview
                             </p>
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <p>
+                                <span class="fs-4 text-decoration-underline">
+                                    Cast
+                                </span>
+                            </p>
+                            <div class="d-flex">
+                                <span class="flex-fill">
+                                    @FormatCast
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <p>
+                                <span class="fs-4 text-decoration-underline">
+                                    Production
+                                </span>
+                            </p>
+                            <div class="d-flex">
+                                <span class="flex-fill">
+                                    @FormatProduction
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="overflow-hidden">
-                                <iframe src="@TrailerPath(Movie.Videos)" class="" allowfullscreen="true"></iframe>
+                            <p>
+                                <span class="fs-4 text-decoration-underline">
+                                    Trailer
+                                </span>
+                            </p>
+                            <div class="ratio ratio-16x9">
+                                <iframe src="@TrailerPath" title="@TrailerName" allowfullscreen></iframe>
                             </div>
                         </div>
                     </div>

@@ -70,20 +70,98 @@ namespace Cineder_UI.Web.Features.MoviesSearch
             await Js.InvokeVoidAsync("alert", $"{Id} - {Movie.PosterPath}");
         }
 
-        private static string TrailerPath(IEnumerable<Video> videos)
+        private Video MovieTrailer => Movie?.Videos?.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Key)) ?? new();
+
+        private string TrailerPath
         {
-            var embedKey = string.Empty;
-
-            if (!(videos?.Any() ?? false))
+            get
             {
-                embedKey = string.Empty;
+                var embedKey = MovieTrailer?.Key ?? string.Empty;
+
+                var basePath = "https://www.youtube.com/embed/";
+
+                return $"{basePath}{embedKey}";
             }
+        }
 
-            embedKey = videos?.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Key))?.Key ?? string.Empty;
+        private string TrailerName => MovieTrailer?.Name ?? $"{Movie.Name} Trailer";
 
-            var basePath = "https://www.youtube.com/embed/";
+        private string FormatDuration
+        {
+            get
+            {
+                var duration = Movie?.Runtime ?? 0;
 
-            return $"{basePath}{embedKey}";
+                if (duration < 1)
+                {
+                    return "N/A";
+                }
+
+                var hours = Math.Floor(duration / 60);
+
+                var minutes = duration % 60;
+
+                if (hours < 1)
+                {
+                    return $"{minutes} mins";
+                }
+
+                var hourDisplayUnit = hours > 1 ? "hrs" : "hr";
+
+                return $"{hours} {hourDisplayUnit} {minutes} mins";
+                
+            }
+        }
+
+        private string FormatCast
+        {
+            get
+            {
+                var casts = Movie?.Casts ?? [];
+
+                if (!casts.Any())
+                {
+                    return "N/A";
+                }
+
+                var castNames = casts?.Skip(0)?.Take(10)?.Select(x => x.Name) ?? [];
+
+                return string.Join(", ", castNames) ;
+            }
+        }
+
+        private string FormatGenres
+        {
+            get
+            {
+                var genres = Movie?.Genres ?? [];
+
+                if (!genres.Any())
+                {
+                    return "N/A";
+                }
+
+                var genreNames = genres?.Select(x => x.Name) ?? [];
+
+                return string.Join(", ", genreNames);
+            }
+        }
+
+        private string FormatProduction
+        {
+            get
+            {
+                var productionCompanies = Movie?.ProductionCompanies ?? [];
+
+                if (!productionCompanies.Any())
+                {
+                    return "N/A";
+                }
+
+                var productionCompaniesNames = productionCompanies?.Select(x => x.Name) ?? [];
+
+                return string.Join(", ", productionCompaniesNames);
+            }
         }
     }
 }
