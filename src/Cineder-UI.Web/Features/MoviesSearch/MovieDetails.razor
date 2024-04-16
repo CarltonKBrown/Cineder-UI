@@ -6,100 +6,112 @@
         <div class="container mb-5">
             <BreadCrumbNav BreadCrumbs="NavItems"></BreadCrumbNav>
         </div>
-        @* <div class="container">
-            <header class="border-bottom border-2 border-white mb-3">
-                <h2 class="page-title">@PageName</h2>
-            </header>
-        </div> *@
         <Loading IsLoading=IsLoading>
-            <div class="row">
-                <div class="col-4">
-                    <div class="card text-white bg-black mx-1">
-                        <img src="@ImagePath(Movie.PosterPath)" class="card-img" />
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                   <div class="text-center">
-                                        <span @onclick="SimilarClicked"
-                                              class="btn btn-sm btn-outline-light rounded-pill text-nowrap">
-                                            <span class="text-uppercase fw-bold">You may also like...</span>&nbsp;
-                                            <i class="bi bi-arrow-right-short fw-bold"></i>
-                                        </span>
-                                   </div>
+            <div class="scroll-content-mobile">
+                <div class="row">
+                    <div class="col col-md-4">
+                        <div class="card text-white bg-black mx-1">
+                            <img src="@ImagePath(Movie.PosterPath)" class="card-img" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                       <div class="text-center">
+                                            <span @onclick="SimilarClicked"
+                                                  class="btn btn-sm btn-outline-light rounded-pill text-nowrap">
+                                                <span class="text-uppercase fw-bold">You may also like...</span>&nbsp;
+                                                <i class="bi bi-arrow-right-short fw-bold"></i>
+                                            </span>
+                                       </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-8">
-                    <div class="row">
-                        <div class="col-12">
-                            <h1>@Movie.Name</h1>
-                            <StarRating Rating="@(Movie.VoteAverage/2)" Colour="gold"></StarRating>
-                        </div>
-                    </div>
-                    <div class="row my-3">
-                        <div class="d-flex">
-                            <span class="flex-fill">
-                                @Movie.ReleaseDate.Year
-                            </span>
-                            <span class="flex-fill">
-                                @FormatDuration
-                            </span>
-                            <span class="flex-fill">
-                                @FormatGenres
-                            </span>
-                       </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p>
-                                <span class="fs-4 text-decoration-underline">
-                                    Plot
-                                </span>
-                            </p>
-                            <p>
-                                @Movie.Overview
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-12">
-                            <p>
-                                <span class="fs-4 text-decoration-underline">
-                                    Cast
-                                </span>
-                            </p>
-                            <div class="d-flex">
-                                <span class="flex-fill">
-                                    @FormatCast
-                                </span>
+                    <div class="col col-md-8">
+                        <div class="scroll-content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h1>@Movie.Name</h1>
+                                    <StarRating Rating="@(Movie.VoteAverage/2)" Colour="gold"></StarRating>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-12">
-                            <p>
-                                <span class="fs-4 text-decoration-underline">
-                                    Production
-                                </span>
-                            </p>
-                            <div class="d-flex">
-                                <span class="flex-fill">
-                                    @FormatProduction
-                                </span>
+                            <div class="row my-3">
+                                <div class="col-12">
+                                    <span>
+                                        <i class="bi bi-calendar-check"></i>
+                                    </span>
+                                    <span>
+                                        @Movie.ReleaseDate.Year
+                                    </span>
+                                </div>
+                                <div class="col-12">
+                                    <span>
+                                        <i class="bi bi-hourglass-split"></i>
+                                    </span>
+                                    <span>
+                                        @FormatDuration
+                                    </span>
+                                </div>
+                                <div class="col-12">
+                                    <span>
+                                        <i class="bi bi-list-task"></i>
+                                    </span>
+                                    <span>
+                                        @FormatGenres
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p>
-                                <span class="fs-4 text-decoration-underline">
-                                    Trailer
-                                </span>
-                            </p>
-                            <div class="ratio ratio-16x9">
-                                <iframe src="@TrailerPath" title="@TrailerName" allowfullscreen></iframe>
+                            <div class="row">
+                                <div class="col-12">
+                                    <p>
+                                        <span class="fs-4 text-decoration-underline">
+                                            Plot
+                                        </span>
+                                    </p>
+                                    <p>
+                                        @Movie.Overview
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <p>
+                                        <span class="fs-4 text-decoration-underline">
+                                            Cast
+                                        </span>
+                                    </p>
+                                    <div class="d-flex">
+                                        <span class="flex-fill">
+                                            @FormatCast
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <p>
+                                        <span class="fs-4 text-decoration-underline">
+                                            Production
+                                        </span>
+                                    </p>
+                                    <div class="d-flex">
+                                        <span class="flex-fill">
+                                            @FormatProduction
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <p>
+                                        <span class="fs-4 text-decoration-underline">
+                                            Trailer
+                                        </span>
+                                    </p>
+                                    <div class="ratio ratio-16x9 mb-3">
+                                        <iframe src="@TrailerPath" title="@TrailerName" allowfullscreen></iframe>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
