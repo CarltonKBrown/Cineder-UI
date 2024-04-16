@@ -55,16 +55,6 @@ namespace Cineder_UI.Web.Features.MoviesSearch
             IsLoading = false;
         }
 
-        private static string ImagePath(string posterPath)
-        {
-            if (string.IsNullOrWhiteSpace(posterPath))
-            {
-                return "https://via.placeholder.com/300";
-            }
-
-            return $"https://image.tmdb.org/t/p/w300{posterPath}";
-        }
-
         private async Task SimilarClicked()
         {
             await Js.InvokeVoidAsync("alert", $"{Id} - {Movie.PosterPath}");
