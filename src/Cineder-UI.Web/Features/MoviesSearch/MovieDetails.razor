@@ -17,90 +17,20 @@
                     </div>
                     <div class="col col-md-8">
                         <div class="scroll-content">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h1>@Movie.Name</h1>
-                                    <StarRating Rating="@(Movie.VoteAverage/2)" Colour="gold"></StarRating>
-                                </div>
-                            </div>
-                            <div class="row my-3">
-                                <div class="col-12">
-                                    <span>
-                                        <i class="bi bi-calendar-check"></i>
-                                    </span>
-                                    <span>
-                                        @Movie.ReleaseDate.Year
-                                    </span>
-                                </div>
-                                <div class="col-12">
-                                    <span>
-                                        <i class="bi bi-hourglass-split"></i>
-                                    </span>
-                                    <span>
-                                        @FormatDuration
-                                    </span>
-                                </div>
-                                <div class="col-12">
-                                    <span>
-                                        <i class="bi bi-list-task"></i>
-                                    </span>
-                                    <span>
-                                        @FormatGenres
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <p>
-                                        <span class="fs-4 text-decoration-underline">
-                                            Plot
-                                        </span>
-                                    </p>
-                                    <p>
-                                        @Movie.Overview
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-12">
-                                    <p>
-                                        <span class="fs-4 text-decoration-underline">
-                                            Cast
-                                        </span>
-                                    </p>
-                                    <div class="d-flex">
-                                        <span class="flex-fill">
-                                            @FormatCast
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-12">
-                                    <p>
-                                        <span class="fs-4 text-decoration-underline">
-                                            Production
-                                        </span>
-                                    </p>
-                                    <div class="d-flex">
-                                        <span class="flex-fill">
-                                            @FormatProduction
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <p>
-                                        <span class="fs-4 text-decoration-underline">
-                                            Trailer
-                                        </span>
-                                    </p>
-                                    <div class="ratio ratio-16x9 mb-3">
-                                        <iframe src="@TrailerPath" title="@TrailerName" allowfullscreen></iframe>
-                                    </div>
-                                </div>
-                            </div>
+                            <MovieHeader MovieName="@Movie.Name"
+                                         MovieRating="@Movie.VoteAverage"
+                                         MovieReleaseDate="@Movie.ReleaseDate"
+                                         MovieDuration="@Movie.Runtime"
+                                         MovieGenres="@Movie.Genres"
+                            />
+                            <MovieBody MovieOverview="@Movie.Overview"
+                                        MovieCasts="@Movie.Casts"
+                                        MovieProductionCompanies="@Movie.ProductionCompanies"
+                            />
+                            <MovieTrailer MovieName="@Movie.Name"
+                                          MovieVideos="@Movie.Videos"
+                                          OnTrailerLoaded="OnPageLoad" 
+                            />
                         </div>
                     </div>
                 </div>
