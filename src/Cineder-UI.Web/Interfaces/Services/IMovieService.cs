@@ -6,7 +6,7 @@ namespace Cineder_UI.Web.Interfaces.Services
     {
         Task<SearchResult<MoviesResult>> GetMovies(GetMoviesRequest request);
 
-        Task<MovieDetail> GetMovieByIdAsync(GetMovieIdRequest request);
+        Task<MovieDetail> GetMovieByIdAsync(GetMovieByIdRequest request);
 
         Task<SearchResult<MoviesResult>> GetMoviesSimilar(GetMoviesSimilarRequest request);
     }

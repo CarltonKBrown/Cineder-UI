@@ -1,0 +1,43 @@
+﻿@page "/movies/{id:int}"
+<PageTitle>Cineder - @PageName</PageTitle>
+
+<div class="container site-content">
+    <div class="container">
+        <div class="container mb-5">
+            <BreadCrumbNav BreadCrumbs="NavItems"></BreadCrumbNav>
+        </div>
+        <Loading IsLoading=IsLoading>
+            <div class="scroll-content-mobile">
+                <div class="row">
+                    <div class="col col-md-4">
+                        <MoviePoster ImagePath="@Movie.PosterPath" 
+                                     OnSimilarClicked="SimilarClicked" 
+                                     BtnText="You may also like..."
+                        />
+                    </div>
+                    <div class="col col-md-8">
+                        <div class="scroll-content">
+                            <MovieHeader MovieName="@Movie.Name"
+                                         MovieRating="@Movie.VoteAverage"
+                                         MovieReleaseDate="@Movie.ReleaseDate"
+                                         MovieDuration="@Movie.Runtime"
+                                         MovieGenres="@Movie.Genres"
+                            />
+                            <MovieBody MovieOverview="@Movie.Overview"
+                                        MovieCasts="@Movie.Casts"
+                                        MovieProductionCompanies="@Movie.ProductionCompanies"
+                            />
+                            <MovieTrailer MovieName="@Movie.Name"
+                                          MovieVideos="@Movie.Videos"
+                                          OnTrailerLoaded="OnPageLoad" 
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Loading>
+    </div>
+</div>
+
+
+

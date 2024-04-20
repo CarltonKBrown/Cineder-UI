@@ -2,7 +2,6 @@
 using Cineder_UI.Web.Interfaces.Store;
 using Cineder_UI.Web.Models.Common;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace Cineder_UI.Web.Features.MoviesSearch
 {
@@ -12,10 +11,7 @@ namespace Cineder_UI.Web.Features.MoviesSearch
         NavigationManager NavMngr { get; set; } = default!;
 
         [Inject]
-        IStateContainer? Store { get; set; }
-
-        [Inject]
-        IJSRuntime? Js { get; set; }
+        IStateContainer Store { get; set; }
 
         [SupplyParameterFromForm]
         public MovieSearchPageModel PageModel { get; set; } = new();
@@ -30,7 +26,7 @@ namespace Cineder_UI.Web.Features.MoviesSearch
 
         public int TotalPages => PageModel?.MoviesResults?.TotalPages ?? 1;
 
-        private bool IsBusy {  get; set; } = false;
+        private bool IsBusy { get; set; } = false;
 
         public string PageTitle { get; } = "Movies";
         protected override async Task OnInitializedAsync()
@@ -72,28 +68,28 @@ namespace Cineder_UI.Web.Features.MoviesSearch
 
             await Store!.SetMoviesSearch(SearchText, Page);
 
-			IsBusy = false;
+            IsBusy = false;
 
-			NavMngr.NavigateTo($"/movies?searchText={SearchText}&page={Page}");
+            NavMngr.NavigateTo($"/movies?searchText={SearchText}&page={Page}");
         }
 
-        private static IEnumerable<BreadCrumbItem> NavItems
+        private IEnumerable<BreadCrumbItem> NavItems
         {
             get
             {
-                return 
+                return
                 [
                     new BreadCrumbItem("Home", "/", false),
-                    new BreadCrumbItem("Movies", "/movies", true),
-				];
+                    new BreadCrumbItem("Movies", $"/movies?searchText={Store.State.MovieState.SearchText}&page={Store.State.MovieState.SearchResult.Page}", true),
+                ];
             }
         }
 
         private async Task ToDetailsPage(long movieId)
         {
-            await Js.InvokeVoidAsync("alert", $"{movieId}");
+            await Store!.SetMovieDetail(movieId);
 
-            // NavMngr.NavigateTo($"/movies/{movieId}");
+            NavMngr.NavigateTo($"/movies/{movieId}");
         }
 
         private async Task ChangePage(int pageNum)
@@ -118,13 +114,13 @@ namespace Cineder_UI.Web.Features.MoviesSearch
 
             await Store!.SetSearchText(searchText);
 
-			await Store!.SetPage(1);
+            await Store!.SetPage(1);
 
-			SearchText = Store!.State.MovieState.SearchText;
+            SearchText = Store!.State.MovieState.SearchText;
 
-			Page = Store!.State.MovieState.SearchResult.Page;
+            Page = Store!.State.MovieState.SearchResult.Page;
 
-			await SearchMovies();
+            await SearchMovies();
         }
 
         private void ChangeSort(int sortVal)
