@@ -35,6 +35,8 @@ namespace Cineder_UI.Web.Features.MoviesSearch
         {
             IsLoading = true;
 
+            await Store!.InitializeStore();
+
             await Store.SetMovieDetail(Id);
 
             Movie = Store.State.MovieState.MovieDetail;
@@ -49,29 +51,11 @@ namespace Cineder_UI.Web.Features.MoviesSearch
             Movie = Store.State.MovieState.MovieDetail;
 
            base.OnParametersSetAsync();
-
-           // IsLoading = false;
         }
 
         private async Task SimilarClicked()
         {
             await Js.InvokeVoidAsync("alert", $"{Id} - {Movie.PosterPath}");
-        }
-
-        private Video MovieTrailer => Movie?.Videos?.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Key)) ?? new();
-
-        private string TrailerName => MovieTrailer?.Name ?? $"{Movie.Name} Trailer";
-
-        private string TrailerPath
-        {
-            get
-            {
-                var embedKey = MovieTrailer?.Key ?? string.Empty;
-
-                var basePath = "https://www.youtube.com/embed/";
-
-                return $"{basePath}{embedKey}";
-            }
         }
 
         private void OnPageLoad()
