@@ -1,0 +1,52 @@
+﻿<div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+                <h1>@SeriesName</h1>
+                <StarRating Rating="@(SeriesRating/2)" Colour="gold"></StarRating>
+            </div>
+        </div>
+        <div class="row my-3">
+            <div class="col-12">
+                <span>
+                    <i class="bi bi-calendar-check"></i>
+                </span>
+                <span>
+                    @SeriesReleasDate.Year
+                </span>
+            </div>
+            <div class="col-12">
+                <span>
+                    <i class="bi bi-list-task"></i>
+                </span>
+                <span>
+                    @FormatGenres
+                </span>
+            </div>
+            <div class="col-12">
+                <span>
+                    <i class="bi bi-bar-chart"></i>
+                </span>
+                <span>
+                    @SeriesSeasons
+                </span>
+            </div>
+            <div class="col-12">
+                <span>
+                    <i class="bi bi-layers"></i>
+                </span>
+                <span>
+                    @SeriesEpisodes
+                </span>
+            </div>
+            <div class="col-12">
+                <span>
+                    <i class="bi bi-hourglass"></i>
+                </span>
+                <span>
+                    @SeriesStatus
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

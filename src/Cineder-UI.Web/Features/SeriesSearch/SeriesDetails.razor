@@ -1,0 +1,34 @@
+﻿@page "/series/{id:int}"
+
+<PageTitle>Cineder - @PageName</PageTitle>
+
+<div class="container site-content">
+    <div class="container">
+        <div class="container mb-5">
+            <BreadCrumbNav BreadCrumbs="NavItems"></BreadCrumbNav>
+        </div>
+        <Loading IsLoading=IsLoading>
+            <div class="scroll-content-mobile">
+                <div class="row">
+                    <div class="col col-md-4">
+                        <SeriesPoster ImagePath="@Series.PosterPath"
+                                     OnSimilarClicked="SimilarClicked"
+                                     BtnText="You may also like..." />
+                    </div>
+                    <div class="col col-md-8">
+                        <div class="scroll-content">
+                            <SeriesHeader SeriesName="@Series.Name"
+                                          SeriesRating="@Series.VoteAverage"
+                                          SeriesReleasDate="@Series.FirstAirDate"
+                                          SeriesGenre="@Series.Genres"
+                                          SeriesEpisodes="@Series.NumberOfEpisodes"
+                                          SeriesSeasons="@Series.NumberOfSeasons"
+                                          SeriesStatus="@Series.Status"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Loading>
+    </div>
+</div>

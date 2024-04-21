@@ -92,9 +92,9 @@ namespace Cineder_UI.Web.Features.SeriesSearch
 
         private async Task ToDetailsPage(long seriesId)
         {
-            await Js.InvokeVoidAsync("alert", $"{seriesId}");
+            await Store!.SetSeriesDetail(seriesId);
 
-            // NavMngr.NavigateTo($"/movies/{movieId}");
+            NavMngr.NavigateTo($"/series/{seriesId}");
         }
 
         private async Task ChangePage(int pageNum)
