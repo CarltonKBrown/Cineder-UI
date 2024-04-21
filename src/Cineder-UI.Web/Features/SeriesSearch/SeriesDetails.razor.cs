@@ -43,8 +43,6 @@ namespace Cineder_UI.Web.Features.SeriesSearch
             Series = Store.State.SeriesState.SeriesDetail;
 
             await base.OnInitializedAsync();
-
-            OnPageLoad();
         }
 
         protected override void OnParametersSet()
@@ -54,8 +52,6 @@ namespace Cineder_UI.Web.Features.SeriesSearch
             Series = Store.State.SeriesState.SeriesDetail;
 
             base.OnParametersSetAsync();
-
-            OnPageLoad();
         }
 
         private async Task SimilarClicked()
