@@ -1,0 +1,13 @@
+﻿.scroll-content {
+    height: 70vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+@media only screen and (max-width : 495px) {
+    .scroll-content-mobile {
+        height: 70vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}

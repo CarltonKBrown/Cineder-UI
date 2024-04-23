@@ -380,11 +380,57 @@ namespace Cineder_UI.Web.Store
             }
         }
 
+        public async Task SetSeriesDetail(long seriesId)
+        {
+            try
+            {
+                if (seriesId < 1 || State.SeriesState.SeriesDetail.Id.Equals(seriesId))
+                {
+                    return;
+                }
+
+                var seriesDetail = await FetchSeriesDetails(seriesId);
+
+                if (seriesDetail.Id < 1)
+                {
+                    return;
+                }
+
+                State = State with
+                {
+                    SeriesState = State.SeriesState with
+                    {
+                        SeriesDetail = seriesDetail
+                    }
+                };
+
+                await CommitAppStateAsync(State);
+            }
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
+        }
+
         private async Task<MovieDetail> FetchMovieDetails(long movieId)
         {
             var request = new GetMovieByIdRequest(movieId);
 
             var response = await _movieService.GetMovieByIdAsync(request);
+
+            if ((response?.Id ?? 0) < 1)
+            {
+                response = new();
+            }
+
+            return response ?? new();
+        }
+
+        private async Task<SeriesDetail> FetchSeriesDetails(long seriesId)
+        {
+            var request = new GetSeriesByIdRequest(seriesId);
+            
+            var response = await _seriesService.GetSeriesByIdAsync(request);
 
             if ((response?.Id ?? 0) < 1)
             {
