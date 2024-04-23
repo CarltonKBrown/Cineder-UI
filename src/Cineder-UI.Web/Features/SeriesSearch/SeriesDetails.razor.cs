@@ -17,7 +17,7 @@ namespace Cineder_UI.Web.Features.SeriesSearch
 		[Inject]
 		protected IJSRuntime Js { get; set; } = default!;
 
-		protected SeriesDetail Series { get; set; } = new();
+        protected SeriesDetail Series { get; set; } = new();
 
 		private string PageName => $"{Series.Name}";
 
@@ -27,7 +27,7 @@ namespace Cineder_UI.Web.Features.SeriesSearch
             [
                 new BreadCrumbItem("Home", "/", false),
                 new BreadCrumbItem("Series", SeriesPageLink, false),
-                new BreadCrumbItem($"{Series.Name}", $"/movies/{Id}", true)
+                new BreadCrumbItem($"{Series.Name}", $"/series/{Id}", true)
             ];
 
         private bool IsLoading { get; set; } = false;
