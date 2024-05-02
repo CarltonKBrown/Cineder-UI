@@ -439,5 +439,124 @@ namespace Cineder_UI.Web.Store
 
             return response ?? new();
         }
+
+        public async Task SetSimilarMovie(long movieId, int page = 1)
+        {
+            try
+            {
+                var movieResults = await FetchSimilarMovies(movieId, page);
+
+                var currentState = State with
+                {
+                    MovieState = State.MovieState with
+                    {
+                        Similar = movieResults
+                    }
+                };
+
+                await CommitAppStateAsync(currentState);
+            }
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
+        }
+
+        public async Task<SearchResult<MoviesResult>> FetchSimilarMovies(long movieId, int page = 1)
+        {
+            var request = new GetMoviesSimilarRequest(movieId, page);
+
+            var response = await _movieService.GetMoviesSimilar(request);
+
+            if ((response.Results?.Count() ?? 0) < 1)
+            {
+                var totalResults = State.MovieState.Similar?.TotalResults ?? 0;
+
+                var totalPage = State.MovieState.Similar?.TotalPages ?? 0;
+
+                response = new(page, [], totalResults, totalPage);
+            }
+
+            return response;
+        }
+
+        public async Task SetSimilarPage(int page)
+        {
+            try
+            {
+                switch (State.SiteMode)
+                {
+                    case SiteMode.Movie:
+                        await SetMovieSimilarPage(page);
+                        break;
+                    case SiteMode.Series:
+                        await SetSeriesSimilarPage(page);
+                        break;
+                    case SiteMode.None:
+                    default:
+                        break;
+                }
+            }
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
+        }
+        private async Task SetMovieSimilarPage(int page)
+        {
+            try
+            {
+                if (State.MovieState.Similar.Page.Equals(page))
+                {
+                    return;
+                }
+
+                var currentState = State with
+                {
+                    MovieState = State.MovieState with
+                    {
+                        Similar = State.MovieState.Similar with
+                        {
+                            Page = page
+                        }
+                    }
+                };
+
+                await CommitAppStateAsync(currentState);
+            }
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
+        }
+
+        private async Task SetSeriesSimilarPage(int page)
+        {
+            try
+            {
+                if (State.SeriesState.Similar.Page.Equals(page))
+                {
+                    return;
+                }
+
+                var currentState = State with
+                {
+                    SeriesState = State.SeriesState with
+                    {
+                        Similar = State.SeriesState.Similar with
+                        {
+                            Page = page
+                        }
+                    }
+                };
+
+                await CommitAppStateAsync(currentState);
+            }
+            catch (Exception)
+            {
+                await InitializeStore();
+            }
+        }
+
     }
 }

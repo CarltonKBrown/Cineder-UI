@@ -27,5 +27,8 @@ namespace Cineder_UI.Web.Interfaces.Store
         Task SetSeriesSearch(string searchText, int page);
         Task SetMovieDetail(long movieId);
         Task SetSeriesDetail(long seriesId);
+        Task SetSimilarMovie(long movieId, int page);
+
+        Task SetSimilarPage(int page);
     }
 }

@@ -15,7 +15,7 @@ namespace Cineder_UI.Web.Features.MoviesSearch
         protected IStateContainer Store { get; set; } = default!;
 
         [Inject]
-        protected IJSRuntime Js { get; set; } = default!;
+        NavigationManager NavMngr { get; set; } = default!;
 
         protected MovieDetail Movie { get; set; } = new();
 
@@ -53,9 +53,9 @@ namespace Cineder_UI.Web.Features.MoviesSearch
            base.OnParametersSetAsync();
         }
 
-        private async Task SimilarClicked()
+        private void SimilarClicked()
         {
-            await Js.InvokeVoidAsync("alert", $"{Id} - {Movie.PosterPath}");
+            NavMngr.NavigateTo($"/movies/{Id}/similar?page=1");
         }
 
         private void OnPageLoad()
