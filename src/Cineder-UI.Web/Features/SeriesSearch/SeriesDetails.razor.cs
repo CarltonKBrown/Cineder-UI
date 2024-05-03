@@ -11,11 +11,11 @@ namespace Cineder_UI.Web.Features.SeriesSearch
 		[Parameter]
 		public int Id { get; set; } = 0;
 
-		[Inject]
-		protected IStateContainer Store { get; set; } = default!;
+        [Inject]
+        NavigationManager NavMngr { get; set; } = default!;
 
-		[Inject]
-		protected IJSRuntime Js { get; set; } = default!;
+        [Inject]
+		protected IStateContainer Store { get; set; } = default!;
 
         protected SeriesDetail Series { get; set; } = new();
 
@@ -54,9 +54,9 @@ namespace Cineder_UI.Web.Features.SeriesSearch
             base.OnParametersSetAsync();
         }
 
-        private async Task SimilarClicked()
+        private void SimilarClicked()
         {
-            await Js.InvokeVoidAsync("alert", $"{Id} - {Series.PosterPath}");
+            NavMngr.NavigateTo($"/series/{Id}/similar?page=1");
         }
 
         private void OnPageLoad()
