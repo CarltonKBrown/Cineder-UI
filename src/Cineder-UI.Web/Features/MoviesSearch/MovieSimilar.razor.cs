@@ -126,7 +126,7 @@ namespace Cineder_UI.Web.Features.MoviesSearch
             };
         }
 
-            private void ChangeSort(int sortVal)
+        private void ChangeSort(int sortVal)
         {
             IsBusy = true;
 

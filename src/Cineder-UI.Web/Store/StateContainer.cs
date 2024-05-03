@@ -462,7 +462,7 @@ namespace Cineder_UI.Web.Store
             }
         }
 
-        public async Task<SearchResult<MoviesResult>> FetchSimilarMovies(long movieId, int page = 1)
+        private async Task<SearchResult<MoviesResult>> FetchSimilarMovies(long movieId, int page = 1)
         {
             var request = new GetMoviesSimilarRequest(movieId, page);
 
@@ -558,5 +558,44 @@ namespace Cineder_UI.Web.Store
             }
         }
 
-    }
+		public async Task SetSimilarSeries(long seriesId, int page)
+		{
+			try
+			{
+				var seriesResults = await FetchSimilarSeries(seriesId, page);
+
+				var currentState = State with
+				{
+					SeriesState = State.SeriesState with
+					{
+						Similar = seriesResults
+					}
+				};
+
+				await CommitAppStateAsync(currentState);
+			}
+			catch (Exception)
+			{
+				await InitializeStore();
+			}
+		}
+
+        private async Task<SearchResult<SeriesResult>> FetchSimilarSeries(long seriesId, int page = 1)
+        {
+			var request = new GetSeriesSimilarRequest(seriesId, page);
+
+			var response = await _seriesService.GetSeriesSimilar(request);
+
+			if ((response.Results?.Count() ?? 0) < 1)
+			{
+				var totalResults = State.SeriesState.Similar?.TotalResults ?? 0;
+
+				var totalPage = State.SeriesState.Similar?.TotalPages ?? 0;
+
+				response = new(page, [], totalResults, totalPage);
+			}
+
+			return response;
+		}
+	}
 }

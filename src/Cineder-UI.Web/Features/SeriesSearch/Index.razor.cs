@@ -15,9 +15,6 @@ namespace Cineder_UI.Web.Features.SeriesSearch
         [Inject]
         IStateContainer? Store { get; set; }
 
-        [Inject]
-        IJSRuntime? Js { get; set; }
-
         [SupplyParameterFromForm]
         public SeriesSearchPageModel PageModel { get; set; } = new();
 
